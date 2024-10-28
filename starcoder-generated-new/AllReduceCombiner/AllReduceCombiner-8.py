@@ -1,0 +1,4 @@
+
+
+Create a class Model defines a computation associating multiple TensorFlow ops (tf.reduce_sum). 
+However, this Model class does not meet your requirements. Existing TensorFlow frameworks only provide distinct reduction operations compatible with tf.reduce_sum or tf.reduce_max. The evenly distributed model should be built by the specifics of types and numbers. For example, you are asked for AllReduce operations, but the existing TensorFlow framework does not provide such an opportunity. Instead, you can define other kind of TensorFlow operations (like tf.transpose or tf.nn.softmax) and combine them manually to achieve your goal.

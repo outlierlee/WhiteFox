@@ -1,0 +1,27 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// Define a function that uses stack-allocated variables
+void example_function() {
+  // Declare variables using alloca
+  int a = 0; // Declare and initialize a variable
+  int b = 1; // Declare and initialize another variable
+
+  // Use the variables in a way that they can be promoted to registers
+  a = a + b; // Simple arithmetic operation
+  b = a * 2; // Another operation involving the variables
+
+  // Print the results to ensure the variables are used
+  printf("a: %d, b: %d\n", a, b);
+}
+
+int main() {
+  // Call the function
+  example_function();
+  return 0;
+}
+```
+
+This pattern characterizes scenarios where within a function, variables are allocated on the stack using `alloca` and are used in a manner that allows them to be promoted to registers. The function should perform operations on these variables, such as arithmetic operations, and use them in a way that ensures they are live throughout the function. The `main` function should call this function to ensure the code is executed. The variables should be initialized and used in a straightforward manner, allowing the optimization to identify them as candidates for promotion to registers.

@@ -1,0 +1,15 @@
+The model should contain the following pattern, which is characteristic of an attention mechanism, specifically a scaled dot-product attention:
+
+```python
+# Compute scaled dot-product attention weights
+scaled_scores = (query @ key.transpose(-2, -1)) / math.sqrt(query.size(-1))
+# Optionally add an attention mask
+if attn_mask is not None:
+    scaled_scores += attn_mask
+# Apply softmax to obtain attention weights
+attn_weight = torch.softmax(scaled_scores, dim=-1)
+# Compute the attention output by multiplying the attention weights with the value tensor
+output = attn_weight @ value
+```
+
+This pattern is typically found in models that implement attention mechanisms, such as the Transformer model, where the attention weights are computed by taking the dot product of the query and key matrices, scaling the result, optionally adding an attention mask, applying the softmax function to obtain a probability distribution, and then using these weights to compute a weighted sum of the value matrix.

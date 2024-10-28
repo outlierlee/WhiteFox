@@ -1,0 +1,22 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// Define global variables with initial values
+static const int global_const1 = 42;
+static const int global_const2 = 42; // Same value as global_const1
+
+// Define a function that uses these global constants
+int use_globals() {
+    return global_const1 + global_const2;
+}
+
+int main() {
+    int result = use_globals();
+    printf("Result: %d\n", result);
+    return 0;
+}
+```
+
+This pattern characterizes scenarios where there are multiple global variables with the same constant value. These global variables should have local linkage (e.g., `static` in C) and should not be marked as "used" or have any special metadata that would prevent merging. The `main` function calls a function that uses these global constants, and the result is printed or used in some way. The presence of identical global constants with local linkage allows the optimization to merge them, triggering the relevant optimization pass.

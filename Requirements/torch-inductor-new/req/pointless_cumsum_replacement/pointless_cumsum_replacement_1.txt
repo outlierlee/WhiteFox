@@ -1,0 +1,14 @@
+The model should contain the following pattern:
+
+```python
+# Create a tensor filled with ones
+t1 = torch.full(size=[Arg(), Arg()], fill_value=1, dtype=Ignored(), layout=Ignored(), device=device, pin_memory=False)
+
+# Convert the element type of the tensor to a specified dtype
+t2 = prims.convert_element_type(t1, dtype=dtype)
+
+# Compute the cumulative sum of the tensor along dimension 1
+t3 = torch.cumsum(t2, dim=1)
+```
+
+This pattern characterizes scenarios where a tensor filled with ones is created with a specified size and device, then its element type is converted to a specified dtype, and finally, the cumulative sum is computed along dimension 1.

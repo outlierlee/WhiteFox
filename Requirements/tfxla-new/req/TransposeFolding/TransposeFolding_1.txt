@@ -1,0 +1,29 @@
+The `TransposeFolding` optimization pass in TensorFlow XLA is triggered by specific patterns in a TensorFlow model involving transpose operations that can be folded into convolution or dot operations. The characteristics of the model that can trigger this optimization include:
+
+1. **Convolution with Transpose**:
+   - The model contains a convolution operation where one or more of its operands (inputs) are the result of a transpose operation.
+   - The transpose operation is non-identity, meaning it actually changes the order of dimensions.
+   - The transpose can be folded into the convolution if the transposed dimensions can be adjusted to match the expected input dimensions of the convolution.
+
+   Example pattern:
+   ```python
+   input_tensor = ...
+   transposed_input = tf.transpose(input_tensor, perm=[...])
+   conv_result = tf.nn.conv2d(transposed_input, filter, ...)
+   ```
+
+2. **Dot Product with Transpose**:
+   - The model contains a dot product operation where one or both of its operands are the result of a transpose operation.
+   - Similar to the convolution case, the transpose operation must be non-identity.
+   - The transpose can be folded into the dot product if the transposed dimensions can be adjusted to match the expected input dimensions of the dot operation.
+
+   Example pattern:
+   ```python
+   input_tensor_a = ...
+   input_tensor_b = ...
+   transposed_a = tf.transpose(input_tensor_a, perm=[...])
+   transposed_b = tf.transpose(input_tensor_b, perm=[...])
+   dot_result = tf.linalg.matmul(transposed_a, transposed_b)
+   ```
+
+In both cases, the optimization is possible when the transpose operations can be logically absorbed into the subsequent convolution or dot operations, effectively reducing the computational overhead by eliminating unnecessary data rearrangements.

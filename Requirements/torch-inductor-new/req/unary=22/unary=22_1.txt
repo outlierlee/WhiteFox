@@ -1,0 +1,6 @@
+The model should contain the following pattern:
+```python
+t1 = linear(input_tensor) # Apply a linear transformation to the input tensor
+t2 = torch.tanh(t1) # Apply the hyperbolic tangent function to the output of the linear transformation
+```
+This pattern characterizes scenarios where the output of a linear transformation (fully connected layer) is passed through a hyperbolic tangent activation function. The use of `mkldnn._linear_pointwise.default` suggests that the linear transformation is optimized for performance using MKL-DNN (oneDNN) backend.

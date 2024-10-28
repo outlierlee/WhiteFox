@@ -1,0 +1,10 @@
+The model should contain the following pattern, which resembles a Parametric ReLU (PReLU) activation function applied to the output of a pointwise convolution:
+
+```python
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 > 0 # Compare the output of the convolution to 0
+t3 = t1 * negative_slope # Multiply the output of the convolution by a parameter 'negative_slope'
+t4 = torch.where(t2, t1, t3) # Use the where function to select between t1 and t3 based on the condition t2
+```
+
+This pattern characterizes scenarios where the output of a pointwise convolution is passed through a conditional operation that mimics the behavior of a PReLU activation. The output is either the original convolution result if it is greater than zero or a scaled version of it (using a `negative_slope` parameter) if it is less than or equal to zero.

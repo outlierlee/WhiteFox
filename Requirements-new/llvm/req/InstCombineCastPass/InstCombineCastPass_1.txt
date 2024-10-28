@@ -1,0 +1,18 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// declare variables
+ANY_TYPE x = ANY_VALUE; // declare x
+ANY_TYPE y = ANY_VALUE; // declare y
+
+int main() {
+  // perform operations that involve type casting
+  ANY_TYPE result = (ANY_TYPE) x OPERATOR (ANY_TYPE) y; // cast x and y to a different type and perform an operation
+  printf("%d\n", (int) result); // print the result, cast to int for demonstration
+  return 0;
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there are operations involving type casting between different types. The program should include explicit type casts that can be optimized away by evaluating the expression in a different type. The `ANY_TYPE` could be `char, unsigned, int, float, double, ptr, struct, array, etc.`, and the `ANY_VALUE` should be aligned with the type. The `OPERATOR` could be any arithmetic or bitwise operator such as `+,-,*,/,%,<<,>>,|,&,^`. The program should perform operations that involve truncation or extension of types, which can be optimized by evaluating the expression in a different type. The `main` function should return a value or print a result that is related to the optimization for further comparison.

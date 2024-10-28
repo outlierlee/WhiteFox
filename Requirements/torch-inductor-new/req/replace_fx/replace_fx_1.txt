@@ -1,0 +1,13 @@
+The model should contain the following pattern:
+
+```python
+t1 = torch.nn.functional.dropout(input_tensor, ...)  # Apply dropout to the input tensor
+```
+
+or
+
+```python
+t1 = torch.rand_like(input_tensor, ...)  # Generate a random tensor with the same shape as the input tensor
+```
+
+This pattern characterizes scenarios where the `torch.nn.functional.dropout` or `torch.rand_like` functions are invoked. The `replace_fx` optimization targets these specific function calls for replacement. The optimization will trigger the `gm.graph.erase_node(node)` line when it successfully replaces the original function call with a corresponding function from the `replacements` dictionary, such as `lowmem_dropout` for `dropout` or `rand_like` for `rand_like`. The replacement occurs unless certain conditions are met, such as when `config.fallback_random` is set and the replacement function uses Triton random, or when the operation is on a CPU and the target is in `fallback_cpu_random`.

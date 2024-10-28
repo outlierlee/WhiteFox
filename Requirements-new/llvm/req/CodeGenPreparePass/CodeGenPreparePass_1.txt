@@ -1,0 +1,32 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// Define a function with a switch statement
+int switch_func(int x) {
+  int result = 0; // declare the result
+  switch (x) {
+    case 1:
+      result = x + 1;
+      break;
+    case 2:
+      result = x + 2;
+      break;
+    default:
+      result = x + 3;
+      break;
+  }
+  return result;
+}
+
+int main() {
+  int main_result = 0; // declare the result
+  int x = 1; // initialize x with a constant value
+  main_result = switch_func(x); // call the function with a constant argument
+  printf("%d\n", main_result); // print the result
+  return main_result; // return the result
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there exists a call to `switch_func`, and the result of this call is being used. The `switch_func` contains a switch statement that branches based on the value of `x`. The key characteristic is that the argument passed to `switch_func` is a constant, which allows the switch statement to be optimized into a simpler control flow, such as an unconditional branch or a conditional branch with fewer cases. The `main` function must return a value related to this optimization for further comparison.

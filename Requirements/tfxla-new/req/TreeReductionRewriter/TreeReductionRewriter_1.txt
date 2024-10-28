@@ -1,0 +1,24 @@
+The model should contain the following pattern:
+
+1. **Reduction Operation**: The model includes a reduction operation, such as `tf.reduce_sum`, `tf.reduce_mean`, or similar, applied to a tensor. This operation reduces the tensor along specified dimensions.
+
+2. **Reduction Dimensions**: The dimensions along which the reduction is performed must be larger than a certain threshold, referred to as `reduce_window_size` in the code. This means that at least one of the dimensions being reduced must have a size greater than `reduce_window_size`.
+
+3. **Single Output Array**: The reduction operation should produce a single output array, not a variadic output. This implies that the reduction is not combining multiple tensors into a single output.
+
+4. **Reduction Function**: The reduction operation uses a specific reduction function, which is applied to the elements of the tensor along the specified dimensions.
+
+The pattern can be illustrated with a code snippet:
+
+```python
+import tensorflow as tf
+
+# Example tensor
+input_tensor = tf.random.uniform(shape=[100, 200, 300])
+
+# Reduction operation with dimensions larger than reduce_window_size
+# Assume reduce_window_size is less than 100, 200, or 300
+reduced_tensor = tf.reduce_sum(input_tensor, axis=[0, 1])
+```
+
+In this example, the reduction is performed along the first two dimensions of the `input_tensor`, and at least one of these dimensions must be larger than the `reduce_window_size` to trigger the optimization pass.

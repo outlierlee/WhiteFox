@@ -1,0 +1,25 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// Define a destructor function
+void __attribute__((destructor)) my_destructor() {
+    // RANDOM_CODE: Any code that does not affect the global destructors
+    printf("Destructor called\n");
+}
+
+// Define another destructor function with a different priority
+void __attribute__((destructor(101))) another_destructor() {
+    // RANDOM_CODE: Any code that does not affect the global destructors
+    printf("Another destructor called\n");
+}
+
+int main() {
+    // RANDOM_CODE: Any code that does not affect the global destructors
+    printf("Main function\n");
+    return 0;
+}
+```
+
+This pattern characterizes scenarios where the program defines one or more destructor functions using the `__attribute__((destructor))` attribute. These functions are registered to be called when the program exits. The destructors can have different priorities, which are specified by the optional integer argument to the `destructor` attribute. The `main` function contains code that does not interfere with the destructors. The destructors should not be null, and they should be associated with valid pointers. The program should ensure that the destructors are registered in a way that matches the expected structure of the `llvm.global_dtors` global variable in LLVM IR.

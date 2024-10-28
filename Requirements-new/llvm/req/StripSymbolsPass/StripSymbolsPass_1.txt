@@ -1,0 +1,27 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// Define a struct with a typedef
+typedef struct {
+    int a;
+    float b;
+} MyStruct;
+
+// Define a global variable of the typedef struct
+MyStruct globalVar = {1, 2.0};
+
+// Define a function that uses the typedef struct
+void useStruct(MyStruct *s) {
+    printf("a: %d, b: %f\n", s->a, s->b);
+}
+
+int main() {
+    // Call the function with the global variable
+    useStruct(&globalVar);
+    return 0;
+}
+```
+
+This pattern characterizes scenarios where the program defines a `typedef` for a `struct` and uses it in a global variable and a function. The `typedef` struct is used in a way that its type name is not essential for the program's functionality, allowing the optimization to strip the type names. The `main` function calls a function that utilizes the `typedef` struct, ensuring that the struct is actively used in the program. The program should not include any debug information that needs to be preserved, allowing the type names to be stripped without affecting the program's behavior.

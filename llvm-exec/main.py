@@ -17,8 +17,10 @@ if __name__ == "__main__":
 		
 
 	# change the path
+	# 1. change the path in the json file to the absolute path added by --llvm-source
 	for k in data.keys():
 		for idx, _ in enumerate(data[k]["hints"]):
+			print(f"{data[k]}++{data[k]['hints']}++{data[k]['hints'][idx]}++{data[k]['hints'][idx]['codes']}")
 			data[k]["hints"][idx]["codes"][0] = os.path.join(args.llvm_source, data[k]["hints"][idx]["codes"][0])
 			try:
 				data[k]["hints"][idx]["codes"][1] = os.path.join(args.llvm_source, data[k]["hints"][idx]["codes"][1])
@@ -33,7 +35,7 @@ if __name__ == "__main__":
 	''' new api, you can refer to the readme.md or the docstring of every func '''
 	extract_source_from_llvm(data) # recommend to comment this line if you only want to gen the prompt
 	extract_func_body_from_source(data)
-	# gen_prompt(data, "cpp")
+    # gen_prompt(data, "cpp")
 	# gen_prompt(data, "ll")
 	# gen_prompt(data, "src2nl_gpt4")
 	# gen_prompt(data, "no_source")
@@ -42,10 +44,10 @@ if __name__ == "__main__":
 	# gen_prompt(data, "nl_pattern")
 	# gen_prompt(data, "cpp_deadarg")
 	# gen_prompt(data, "cpp_aggrinst")
-	# gen_prompt(data, "starcoder_cpp_deadarg")
+    # gen_prompt(data, "starcoder_cpp_deadarg")
 
 	# add instrument to llvm_project
-	add_instrument(data) # recommend to comment this line if you only want to gen the prompt
+	#add_instrument(data) # recommend to comment this line if you only want to gen the prompt
 
 	# simple data statistics
 	statistics(data)

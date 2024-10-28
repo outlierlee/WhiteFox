@@ -1,0 +1,21 @@
+The `HloElementTypeConverter` optimization pass in TensorFlow XLA is triggered by models that contain arithmetic operations using a specific element type that needs to be converted to another type. The characteristics of such a model include:
+
+1. **Element Type Mismatch**: The model contains operations where the element type of the operands or the result is the `eliminate_type_` specified for conversion.
+
+2. **Arithmetic Operations**: The operations involved are arithmetic in nature and are not among the excluded opcodes such as `kParameter`, `kConstant`, `kTuple`, `kConvert`, `kBitcastConvert`, `kGetTupleElement`, `kInfeed`, `kOutfeed`, or `kCustomCall`.
+
+3. **Non-Empty Operands**: The operations have operands, and at least one of these operands has the `eliminate_type_`.
+
+4. **Non-Embedded Computations**: The operations are not those with embedded computations like `kWhile`, `kCall`, `kAllReduce`, `kReduceScatter`, `kAllReduceStart`, `kFusion`, `kMap`, `kReduce`, `kReduceWindow`, `kScatter`, `kSelectAndScatter`, `kSort`, or `kConditional`.
+
+5. **Tuple Handling**: If the operation results in a tuple, the tuple is non-nested, and the element types within the tuple need conversion.
+
+Here is a simplified example pattern that could trigger this optimization:
+
+```python
+# Assume eliminate_type_ is float32 and replace_with_type_ is float64
+input_tensor = tf.constant([1.0, 2.0, 3.0], dtype=tf.float32)
+result = tf.math.add(input_tensor, input_tensor)  # Arithmetic operation with float32
+```
+
+In this example, the `tf.math.add` operation uses `float32` as the element type, which matches the `eliminate_type_`, and thus, the `HloElementTypeConverter` would be triggered to convert this operation to use `float64`.

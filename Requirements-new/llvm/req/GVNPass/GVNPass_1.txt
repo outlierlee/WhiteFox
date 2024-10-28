@@ -1,0 +1,35 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// Define a function that contains a basic block structure
+void example_function() {
+    int a = 10; // Initialize a variable
+    int b = 20; // Initialize another variable
+
+    // Create a simple control flow with a conditional branch
+    if (a < b) {
+        a = a + 1; // Increment a
+    } else {
+        a = a - 1; // Decrement a
+    }
+
+    // Another conditional branch that can be optimized
+    if (a < b) {
+        a = a + 1; // Increment a again
+    } else {
+        a = a - 1; // Decrement a again
+    }
+
+    // Use the variable to prevent dead code elimination
+    printf("%d\n", a);
+}
+
+int main() {
+    example_function(); // Call the function
+    return 0;
+}
+```
+
+This pattern characterizes scenarios where within a function, there are multiple basic blocks with conditional branches that can be merged. The function should have a simple control flow with conditional branches that can be optimized by merging blocks. The `example_function` contains two conditional branches with similar conditions and operations, which can be optimized by merging the blocks. The `main` function calls this function to ensure the code is executed. The program should avoid complex control flows or side effects that prevent block merging, such as exceptional terminators or side-effecting instructions. The use of variables and operations should be simple and straightforward to allow the optimization to identify and merge redundant blocks.

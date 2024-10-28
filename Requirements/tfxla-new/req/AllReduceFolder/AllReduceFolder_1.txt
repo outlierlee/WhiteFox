@@ -1,0 +1,21 @@
+The `AllReduceFolder` optimization pass in TensorFlow XLA is triggered by a specific pattern in the model involving two consecutive `AllReduce` operations. The characteristics of the model that can trigger this optimization are as follows:
+
+1. **Consecutive AllReduce Operations**: The model must contain two `AllReduce` operations where the output of the first `AllReduce` is the input to the second `AllReduce`.
+
+2. **Single User Constraint**: The first `AllReduce` operation must have exactly one user, which is the second `AllReduce`.
+
+3. **Compatible AllReduce Operations**: The two `AllReduce` operations must be compatible in terms of their configurations, except for the replica groups. This means they should have the same shape, operands, and computation function, and they should not have layout constraints.
+
+4. **Non-Empty Replica Groups**: Both `AllReduce` operations must have non-empty replica groups, meaning they explicitly list all the participating replicas.
+
+5. **Foldable Replica Groups**: The replica groups of the two `AllReduce` operations must be such that they can be folded into a single set of replica groups. This involves ensuring that each replica's output in the second `AllReduce` can be traced back to a unique set of contributing replicas from the first `AllReduce`.
+
+Here is a simplified illustration of the pattern:
+
+```python
+# Assume x is a tensor and ar0 and ar1 are AllReduce operations
+ar0 = tf.raw_ops.AllReduce(input=x, replica_groups=[[0, 1], [2, 3]])
+ar1 = tf.raw_ops.AllReduce(input=ar0, replica_groups=[[0, 2], [1, 3]])
+```
+
+In this example, the two `AllReduce` operations have compatible configurations and non-empty replica groups that can potentially be folded into a single set, thus triggering the `AllReduceFolder` optimization.

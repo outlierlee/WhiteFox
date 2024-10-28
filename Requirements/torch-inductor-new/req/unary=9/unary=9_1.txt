@@ -1,0 +1,9 @@
+The model should contain the following pattern:
+```python
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 + 3 # Add 3 to the output of the convolution
+t3 = torch.clamp_min(t2, 0) # Clamp the result to have a minimum value of 0
+t4 = torch.clamp_max(t3, 6) # Clamp the result to have a maximum value of 6
+t5 = t4 / 6 # Divide the clamped result by 6
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is first incremented by a constant `3`, then clamped to a minimum of `0` and a maximum of `6`, and finally divided by `6`. This sequence of operations is often used to normalize the output of a convolutional layer within a specific range.

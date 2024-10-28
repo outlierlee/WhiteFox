@@ -273,6 +273,7 @@ if __name__ == "__main__":
             data[k]["hints"][idx]["specific_ir"] = (
                 llvm_source / data[k]["hints"][idx]["specific_ir"]
             )
+            #k = passname ; idx = index
             example_pool[f"{k}_oneshot_{idx}"] = {}
 
     root_prompt_dir = Path(

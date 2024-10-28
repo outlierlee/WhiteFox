@@ -1,0 +1,27 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// Define a global constant array
+const int global_array[] = {ANY_CONSTANT_VALUES}; // The array should have a size less than MaxArraySizeForCombine
+
+int main() {
+    // Declare a variable to store the result
+    int result = 0;
+
+    // Use a loop or direct access to index into the global array
+    for (int i = 0; i < ARRAY_SIZE; ++i) {
+        // Perform a comparison operation with a constant
+        if (global_array[i] OPERATOR ANY_CONSTANT) {
+            // Update the result based on the comparison
+            result = i; // or any operation that uses the index
+        }
+    }
+
+    // Return the result
+    return result;
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there is a loop or direct access to a global constant array. The program performs a comparison operation on each element of the array with a constant value. The result of the comparison is used to update a variable, which is then returned by the `main` function. The global array should be defined with constant values, and its size should be less than a predefined maximum size (`MaxArraySizeForCombine`). The comparison operation should be such that it can be optimized by the LLVM pass. The `OPERATOR` could be any comparison operator like `==`, `!=`, `<`, `>`, `<=`, or `>=`. The `ANY_CONSTANT_VALUES` and `ANY_CONSTANT` should be chosen to match the type of the array elements.

@@ -1,0 +1,25 @@
+The `MapInliner` optimization pass in TensorFlow XLA is triggered by a specific pattern in the model involving the `tf.map_fn` function. The characteristics of the model that trigger this optimization are as follows:
+
+1. **Single Operation Function**: The function applied in `tf.map_fn` should be a simple function that consists of a single operation. This means the function should not contain multiple operations or complex logic.
+
+2. **Operands as Parameters**: The operation within the function should directly use its inputs as parameters without any additional computation or transformation. This implies that the function's root instruction should have all its operands as parameters.
+
+3. **No Fusion Operations**: The function should not involve any fusion operations (`HloOpcode::kFusion`). If the root operation of the function is a fusion, the optimization will not be triggered.
+
+4. **Root Operation Types**: The root operation of the function can be a parameter, a constant, or any other operation that can be directly inlined. If it's a parameter, the corresponding operand is used as the result. If it's a constant, a broadcast might be needed to match the map shape.
+
+Here is a code pattern that illustrates these characteristics:
+
+```python
+import tensorflow as tf
+
+# Define a simple function with a single operation
+def simple_function(x):
+    return x * 2  # Single operation
+
+# Use tf.map_fn with the simple function
+input_tensor = tf.constant([1, 2, 3, 4])
+output_tensor = tf.map_fn(simple_function, input_tensor)
+```
+
+In this example, `simple_function` is a single operation function that directly uses its input as a parameter. This pattern matches the criteria for triggering the `MapInliner` optimization pass.

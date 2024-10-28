@@ -1,0 +1,17 @@
+The model should contain the following pattern:
+
+```python
+t1 = input_tensor.permute(...)  # Permute the input tensor
+t2 = torch.nn.functional.linear(t1, ...)  # Apply linear transformation to the permuted tensor
+```
+
+This pattern characterizes scenarios where:
+
+1. The `permute` method is invoked on an input tensor with more than 2 dimensions.
+2. The permutation swaps the last two dimensions of this tensor.
+3. The permuted tensor is then used as the main input for the `torch.nn.functional.linear` function.
+
+The `permute_linear_fusion` optimization will trigger the `module.graph.erase_node(node)` line when:
+
+- The `linear` node is successfully replaced by a `transpose_linear` node.
+- The original `linear` node is no longer needed and can be safely removed from the graph.

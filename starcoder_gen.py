@@ -75,7 +75,8 @@ def main():
         model=args.model,
         dtype="bfloat16",
         download_dir=HF_CACHE_DIR,
-        max_model_len=16000,
+        max_model_len=14000,
+        gpu_memory_utilization=0.9,
         swap_space=20,
     )
 

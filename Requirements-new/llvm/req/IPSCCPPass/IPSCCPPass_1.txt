@@ -1,0 +1,20 @@
+The C program should contain the following pattern:
+
+```c
+// declare a global variable with an initial constant value
+static int global_var = CONSTANT_VALUE;
+
+// define a function that uses the global variable
+static int use_global_var() {
+  return global_var; // return the global variable
+}
+
+int main() {
+  int result = 0; // declare a result variable
+  // call the function that uses the global variable
+  result = use_global_var();
+  return result; // return the result
+}
+```
+
+This pattern characterizes scenarios where a global variable is declared with a constant value and is only used in a function that returns its value. The global variable should not be modified after its initialization, and the function that uses it should be static, ensuring internal linkage. The `main` function calls this static function and returns its result. The global variable should be of a simple type, such as `int`, `float`, or `char`, and initialized with a constant value. The program should not perform any operations that would change the value of the global variable after its initialization.

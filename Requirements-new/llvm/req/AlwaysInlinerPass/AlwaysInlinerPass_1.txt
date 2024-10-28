@@ -1,0 +1,21 @@
+The C program should contain the following pattern:
+
+```c
+// declare a function with the 'inline' keyword
+inline int inline_func(int a, int b) {
+  return a + b; // simple operation using the parameters
+}
+
+int main() {
+  int result = 0; // declare a result variable
+  int x = 5; // initialize x
+  int y = 10; // initialize y
+
+  // call the inline function
+  result = inline_func(x, y);
+
+  return result; // return the result
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there exists a call to an `inline` function, `inline_func`, which performs a simple operation on its parameters and returns the result. The `inline_func` is defined with the `inline` keyword, which suggests to the compiler that it should attempt to inline the function. The `main` function must return a value that is the result of the `inline_func` call. The program should be structured such that the inlining of `inline_func` is possible and beneficial, allowing the optimization to proceed.

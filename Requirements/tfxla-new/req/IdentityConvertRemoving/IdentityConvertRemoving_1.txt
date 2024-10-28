@@ -1,0 +1,8 @@
+The model should contain the following pattern:
+
+```python
+t1 = tf.convert_to_tensor(input_tensor, dtype=...)
+t2 = tf.cast(t1, dtype=input_tensor.dtype)
+```
+
+The pattern describes that there is a `convert` operation (or equivalent) in the model where a tensor `input_tensor` is first converted to a specific data type (using `tf.convert_to_tensor` or similar), and then a `cast` operation is applied to convert it back to its original data type. The key characteristic is that the data type before and after the `cast` operation remains the same, effectively making the `cast` operation redundant.

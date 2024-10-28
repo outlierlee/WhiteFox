@@ -1,0 +1,6 @@
+The model should contain the following pattern:
+```python
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = torch.relu(t1) # Apply the ReLU activation function to the output of the convolution
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is directly passed through a ReLU activation function. The convolution operation is performed using the MKL-DNN backend, which is optimized for performance on Intel architectures. The ReLU function is applied to introduce non-linearity, which is a common practice in neural network models to help them learn complex patterns.

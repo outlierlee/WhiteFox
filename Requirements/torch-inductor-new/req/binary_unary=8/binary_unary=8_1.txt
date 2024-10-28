@@ -1,0 +1,7 @@
+The model should contain the following pattern:
+```python
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 + other # Add a tensor or scalar 'other' to the output of the convolution
+t3 = torch.relu(t2) # Apply the ReLU activation function to the result of the addition
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is added to another tensor or scalar, and then the ReLU activation function is applied to the result. This is a common pattern in neural networks where convolutional layers are followed by an addition operation (often used for residual connections or bias addition) and then a non-linear activation function like ReLU.

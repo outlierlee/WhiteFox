@@ -1,0 +1,34 @@
+The `AllReduceReassociate` optimization pass in TensorFlow XLA is triggered by a specific pattern in the model involving `AllReduce` operations. The characteristics of the model that can trigger this optimization are as follows:
+
+1. **Presence of AllReduce Operations**: The model must contain at least two `AllReduce` operations that are candidates for reassociation.
+
+2. **Compatible AllReduce Operations**: The `AllReduce` operations must be compatible with each other. This means they should have matching keys (except possibly for the element type if type promotion is allowed) and should perform the same reduction operation (e.g., sum, product).
+
+3. **Reduction Identity**: The operations should have a valid reduction identity for the reduction kind being performed.
+
+4. **Single User Constraint**: The `AllReduce` operations should be part of a computation chain where each operation has only one user, ensuring a direct data flow.
+
+5. **Optional Type Conversion**: There may be optional type conversion operations (`Convert`) that are compatible and preserve numerical stability. These conversions should be from a narrower type to a wider type.
+
+6. **Profitability Check**: The reassociation should be profitable, meaning that the reassociated operation should not result in a larger reduction than the sum of the individual reductions.
+
+7. **No Layout Constraints**: The model should not contain `AllReduce` operations with constrained layouts, as these would prevent reassociation.
+
+8. **Reduction Operation Pattern**: The model should have a pattern where two `AllReduce` operations are inputs to a binary operation (e.g., addition), and this pattern should be transformable into a single `AllReduce` operation applied to the result of the binary operation.
+
+Here is a simplified illustration of the pattern:
+
+```python
+# Example pattern in TensorFlow
+x = ...  # Some tensor
+y = ...  # Another tensor
+
+# AllReduce operations
+ar_x = tf.raw_ops.AllReduce(input=x, ...)
+ar_y = tf.raw_ops.AllReduce(input=y, ...)
+
+# Binary operation using the results of AllReduce
+result = tf.add(ar_x, ar_y)  # This could be any compatible binary operation
+```
+
+In this pattern, the `AllReduceReassociate` pass would attempt to transform the computation into a single `AllReduce` operation applied to the result of the binary operation, provided all the conditions are met.

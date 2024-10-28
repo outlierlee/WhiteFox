@@ -1,0 +1,33 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// declare variables
+int x = ANY_VALUE; // declare x
+
+int main() {
+  int main_result = 0; // declare the result
+
+  // switch statement with multiple cases
+  switch (x) {
+    case VALUE_1:
+      // code block for case VALUE_1
+      main_result = VALUE_1_RESULT;
+      break;
+    case VALUE_2:
+      // code block for case VALUE_2
+      main_result = VALUE_2_RESULT;
+      break;
+    // additional cases as needed
+    default:
+      // default case code block
+      main_result = DEFAULT_RESULT;
+      break;
+  }
+
+  return main_result; // return the result
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there exists a `switch` statement that operates on a variable `x`. The `switch` statement should have multiple `case` labels, each with its own code block, and a `default` case. The `main` function should return a value that is determined by the execution of one of these cases. The `ANY_VALUE` should be an integer value that matches the type of the `switch` expression. The `VALUE_1`, `VALUE_2`, etc., are constant integer values that represent the different cases in the `switch` statement. The `VALUE_1_RESULT`, `VALUE_2_RESULT`, and `DEFAULT_RESULT` are the results associated with each case and the default case, respectively. The presence of the `switch` statement with multiple cases is crucial for triggering the optimization.

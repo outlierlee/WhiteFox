@@ -1,0 +1,24 @@
+The `ReduceScatterCombiner` optimization pass in TensorFlow XLA is triggered by models that exhibit the following characteristics:
+
+1. **Multiple `ReduceScatter` Operations**: The model contains at least two `ReduceScatter` operations. These operations must have exactly one operand each.
+
+2. **Same Reduction Operation**: All `ReduceScatter` operations to be combined must use the same reduction operation. This means that the reduction computation applied in each `ReduceScatter` must be identical.
+
+3. **Matching Scatter Dimension**: The `ReduceScatter` operations must have the same scatter dimension. This ensures that the operations are compatible for combination.
+
+4. **No Layout Constraints**: The model should not contain `ReduceScatter` operations with constrained layouts. If any `ReduceScatter` operation has a layout constraint, the optimization will not be applied.
+
+5. **Thresholds**: The combination of `ReduceScatter` operations is subject to certain thresholds:
+   - **Byte Threshold**: The combined size of the `ReduceScatter` operations must exceed a specified byte threshold.
+   - **Count Threshold**: The number of `ReduceScatter` operations to be combined must meet or exceed a specified count threshold.
+
+Here is a conceptual illustration of the pattern:
+
+```python
+# Example pattern that might trigger the ReduceScatterCombiner
+reduce_scatter_1 = tf.raw_ops.ReduceScatter(input_tensor_1, ...)
+reduce_scatter_2 = tf.raw_ops.ReduceScatter(input_tensor_2, ...)
+# Both reduce_scatter_1 and reduce_scatter_2 must have the same reduction operation and scatter dimension
+```
+
+In summary, the model should have multiple `ReduceScatter` operations with the same reduction operation and scatter dimension, without layout constraints, and meet the specified thresholds for combination.

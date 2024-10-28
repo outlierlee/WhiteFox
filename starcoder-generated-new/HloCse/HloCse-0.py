@@ -1,0 +1,4 @@
+
+Creating the `HloCSE` compatible model is not possible only with public TensorFlow APIs as "HloCse" is not native TensorFlow optimizer. HloCse in XLA is an algorithm developed to apply common subexpression elimination to a module. However, at present Tensorflow XLA doesn't support this manually due to lack of libraries that can work as the same way as HloCse does in XLA. 
+
+So, It is adviced to use libraries outside of Tensorflow which can directly integrate with concrete implementations of CSE operator. However this will be a project of its own under the guidance of Tensorflow team and should give one a full understanding of how XLA utilizes these libraries and what possible results they can provide.

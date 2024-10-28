@@ -44,7 +44,7 @@ if __name__ == "__main__":
     parser.add_argument("--batch-size", type=int, default=100)
     parser.add_argument("--prompt-only", action="store_true")
     parser.add_argument("--target", type=str, default="PyTorch")
-    parser.add_argument("--model", type=str, default="gpt-4")
+    parser.add_argument("--model", type=str, default="gpt-4o")
 
     args = parser.parse_args()
 

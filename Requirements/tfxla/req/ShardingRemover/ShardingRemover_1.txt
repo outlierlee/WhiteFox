@@ -1,0 +1,3 @@
+The characteristics of the TensorFlow model that trigger the optimization pass `ShardingRemover` in TensorFlow XLA are as follows:
+
+The model should contain custom-call instructions with specific targets that match the set `{ "Sharding", "SPMDShardToFullShape", "SPMDFullToShardShape"}`. These custom-call instructions must have exactly one operand. When these conditions are met, the `ShardingRemover` optimization pass will replace the uses of the custom-call instruction with its operand, leading the function to return true.

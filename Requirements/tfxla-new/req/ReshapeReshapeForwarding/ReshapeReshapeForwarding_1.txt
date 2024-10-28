@@ -1,0 +1,19 @@
+The TensorFlow model that triggers the `ReshapeReshapeForwarding` optimization pass in TensorFlow XLA should exhibit the following characteristics:
+
+1. **Two Consecutive Reshape Operations**: The model must contain two consecutive `reshape` operations applied to a tensor.
+
+2. **Initial Reshape**: The first `reshape` operation transforms an input tensor `A` from its original shape to a new shape. This new shape can be any valid shape that is compatible with the number of elements in `A`.
+
+   ```python
+   t1 = tf.reshape(input_tensor, new_shape)
+   ```
+
+3. **Reverting Reshape**: The second `reshape` operation takes the output of the first reshape (`t1`) and reshapes it back to the original shape of `input_tensor`.
+
+   ```python
+   t2 = tf.reshape(t1, input_tensor.shape)
+   ```
+
+4. **Shape Equality**: The shape of the tensor after the second reshape (`t2`) must be equal to the original shape of `input_tensor`. This ensures that the two reshapes effectively cancel each other out, leaving the tensor in its original shape.
+
+By following this pattern, the model will trigger the `ReshapeReshapeForwarding` optimization, as the two reshapes can be effectively removed, simplifying the computation graph.

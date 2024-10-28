@@ -1,0 +1,22 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+int main() {
+    // Declare variables
+    int x = ANY_VALUE; // Initialize x with any integer value
+    int result;
+
+    // Perform a multiplication operation that can be transformed
+    // into a left shift operation by the compiler
+    result = x * (1 << ANY_CONSTANT); // ANY_CONSTANT is a positive integer
+
+    // Use the result in some way
+    printf("%d\n", result);
+
+    return 0;
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there exists a multiplication operation involving a variable and a power of two, which can be optimized into a left shift operation. The multiplication should be of the form `x * (1 << ANY_CONSTANT)`, where `ANY_CONSTANT` is a positive integer. The result of this operation is used in the program, such as being printed or returned. The program should not contain any complex operations that prevent the transformation into a shift operation. The `main` function must return an integer value, typically `0`, to indicate successful execution.

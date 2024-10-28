@@ -1,0 +1,8 @@
+The model should contain the following pattern:
+
+```python
+t1 = linear(input_tensor)  # Apply a pointwise linear transformation to the input tensor
+t2 = t1 - other  # Subtract a specified tensor or scalar 'other' from the output of the linear transformation
+```
+
+This pattern characterizes scenarios where the output of a pointwise linear transformation is subtracted by a specified tensor or scalar. The linear transformation is applied using a pointwise operation, which typically involves a linear layer with a kernel size of 1.

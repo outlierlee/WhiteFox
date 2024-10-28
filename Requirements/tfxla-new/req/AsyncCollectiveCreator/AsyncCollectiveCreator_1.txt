@@ -1,0 +1,48 @@
+The `AsyncCollectiveCreator` optimization pass in TensorFlow XLA is triggered by models that contain specific collective operations that can be converted into their asynchronous counterparts. The characteristics of such a model include:
+
+1. **Collective Operations**: The model must include one or more of the following collective operations:
+   - `AllReduce`
+   - `AllGather`
+   - `CollectivePermute`
+   - `AllToAll`
+   - `ReduceScatter`
+
+2. **Conversion Configuration**: Each of these operations must be configured to be converted to their asynchronous versions. This is typically controlled by a configuration object (`config_`) that specifies which operations should be converted.
+
+3. **Non-Fusion Computations**: The operations must be part of non-fusion computations within the model. This means they are not encapsulated within a fusion operation.
+
+4. **Control Dependencies**: If the operations have control dependencies, these must be managed and transferred to the asynchronous versions.
+
+5. **Scheduled Computations**: If the model has a computation schedule, the schedule must be updated to include the new asynchronous operations.
+
+Here is a conceptual example of how such a model might be structured in TensorFlow:
+
+```python
+import tensorflow as tf
+
+# Example of a model with collective operations
+def model_fn():
+    # Assume `input_tensor` is a distributed tensor across multiple devices
+    input_tensor = ...
+
+    # AllReduce operation
+    reduced_tensor = tf.raw_ops.AllReduce(input_tensor, ...)
+
+    # AllGather operation
+    gathered_tensor = tf.raw_ops.AllGather(input_tensor, ...)
+
+    # CollectivePermute operation
+    permuted_tensor = tf.raw_ops.CollectivePermute(input_tensor, ...)
+
+    # AllToAll operation
+    all_to_all_tensor = tf.raw_ops.AllToAll(input_tensor, ...)
+
+    # ReduceScatter operation
+    reduced_scatter_tensor = tf.raw_ops.ReduceScatter(input_tensor, ...)
+
+    return reduced_tensor, gathered_tensor, permuted_tensor, all_to_all_tensor, reduced_scatter_tensor
+
+# The model must be configured to convert these operations to their async versions
+```
+
+In summary, the model should include one or more of the specified collective operations, and these operations should be configured for conversion to asynchronous versions, which will trigger the `AsyncCollectiveCreator` optimization pass.

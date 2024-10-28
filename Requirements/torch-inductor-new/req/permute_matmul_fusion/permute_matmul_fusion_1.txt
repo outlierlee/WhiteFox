@@ -1,0 +1,18 @@
+The model should contain the following pattern:
+```python
+t1 = input_tensor_A.permute(...) # Permute the first input tensor
+t2 = input_tensor_B.permute(...) # Permute the second input tensor
+t3 = torch.matmul(t1, t2) # Apply matrix multiplication to the permuted tensors.
+```
+or
+```python
+t1 = input_tensor_A.permute(...) # Permute the first input tensor
+t2 = torch.matmul(t1, input_tensor_B) # Apply matrix multiplication with the permuted first tensor.
+```
+or
+```python
+t1 = input_tensor_B.permute(...) # Permute the second input tensor
+t2 = torch.matmul(input_tensor_A, t1) # Apply matrix multiplication with the permuted second tensor.
+```
+
+This pattern characterizes scenarios where the tensor method 'permute' is invoked on one or both input tensors, and then the `torch.matmul` or `torch.bmm` function is invoked on these permuted tensors. The permute method is invoked on input tensors with more than 2 dimensions, and it swaps the last two dimensions of these tensors. These modified tensors are then used as inputs for the matrix multiplication function.

@@ -1,0 +1,26 @@
+The `DotDecomposer` optimization pass in TensorFlow XLA is triggered by models that contain non-canonical dot operations. The characteristics of such models include:
+
+1. **Multiple Contracting Dimensions**: The dot operation has more than one contracting dimension. This means that the dimensions being summed over in the dot product are more than one.
+
+2. **Non-Canonical Batch Dimensions**: The batch dimensions are not in a canonical order. Canonical order means that the batch dimensions should be the most major dimensions, i.e., they should appear first in the dimension list.
+
+3. **Multiple Non-Contracting Dimensions**: The dot operation has more than one non-contracting dimension. Non-contracting dimensions are those that are not involved in the summation but are part of the output shape.
+
+4. **Empty Batch and Contracting Dimensions**: The dot operation has empty batch and contracting dimensions, which means it does not conform to the expected structure of a canonical dot operation.
+
+5. **Non-Canonical Batch Dimension Indices**: The indices of the batch dimensions are not sequential starting from zero, which is required for a canonical form.
+
+A model that triggers this optimization pass would typically have a dot operation that does not fit the canonical form, requiring reshaping and transposing to achieve the canonical form. Here is a simplified example pattern that might trigger the `DotDecomposer`:
+
+```python
+import tensorflow as tf
+
+# Example tensors
+lhs = tf.random.normal([2, 3, 4, 5])  # Shape with batch, non-contracting, and contracting dimensions
+rhs = tf.random.normal([2, 5, 6, 7])  # Shape with batch, contracting, and non-contracting dimensions
+
+# Non-canonical dot operation
+dot_product = tf.tensordot(lhs, rhs, axes=[[3], [1]])  # Contracting over the last dimension of lhs and second dimension of rhs
+```
+
+In this example, the dot operation involves multiple dimensions and does not follow the canonical form, which would trigger the `DotDecomposer` optimization pass.

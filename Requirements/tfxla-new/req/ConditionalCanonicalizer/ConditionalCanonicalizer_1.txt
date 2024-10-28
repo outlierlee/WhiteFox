@@ -1,0 +1,20 @@
+The model should contain the following pattern:
+
+The model includes a `tf.cond` operation where the branches of the conditional operation return non-tuple outputs. This means that the conditional operation is structured such that the result of the conditional is not a tuple, which triggers the `ConditionalCanonicalizer` optimization pass. The optimization pass will then transform the conditional operation to ensure that its output is a tuple, which is a more canonical form for conditional operations in XLA.
+
+Here's a simplified example to illustrate the pattern:
+
+```python
+import tensorflow as tf
+
+def true_fn():
+    return tf.constant(1)  # Non-tuple output
+
+def false_fn():
+    return tf.constant(0)  # Non-tuple output
+
+# Conditional operation with non-tuple outputs
+result = tf.cond(tf.constant(True), true_fn, false_fn)
+```
+
+In this example, the `tf.cond` operation has branches (`true_fn` and `false_fn`) that return non-tuple outputs, which matches the pattern that triggers the `ConditionalCanonicalizer` optimization pass.

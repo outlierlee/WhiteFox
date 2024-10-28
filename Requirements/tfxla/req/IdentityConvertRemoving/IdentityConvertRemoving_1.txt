@@ -1,0 +1,5 @@
+The model should contain the following pattern:
+```
+t = tf.convert(input_tensor, dtype)
+```
+The pattern describes that there is a `convert` operation in the model where the input tensor is converted to the same data type, resulting in an identity conversion.

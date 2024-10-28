@@ -1,0 +1,34 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+int main() {
+    int result = 0; // declare a result variable
+
+    // declare and initialize variables
+    int a = 10;
+    int b = 20;
+    int c = 30;
+
+    // create a loop with a condition that involves the variables
+    for (int i = 0; i < 10; i++) {
+        if (a < b) {
+            result += a; // perform some operation
+        } else {
+            result += b;
+        }
+    }
+
+    // create a condition that uses the result of the loop
+    if (result > c) {
+        printf("Result is greater than c\n");
+    } else {
+        printf("Result is less than or equal to c\n");
+    }
+
+    return 0; // return the result
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there exists a loop that iterates over a set of conditions involving variables. The loop should have a condition that uses these variables, and the result of the loop is used in a subsequent condition outside the loop. The loop should have exit blocks that are dominated by the loop header, and the result of the loop should be used in a condition that is outside the loop. The `main` function must return a value related to this optimization for further comparison. The variables can be of any type, and the operations within the loop can be any valid C operations that do not involve complex data structures or external function calls.

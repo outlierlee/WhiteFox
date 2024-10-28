@@ -1,0 +1,2173 @@
+{
+    "opt": "GlobalOptPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQjRVOZrsesmbbpjeO4y3gh567yL",
+                "object": "chat.completion",
+                "created": 1728717697,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n// declare a function with a specific calling convention\nstatic int my_function(int a, int b) {\n  int result = 0; // declare the result\n  RANDOM_CODE; // Do something here with input arguments\n  result = a OPERATOR b; // result is related to a and b\n  return result;\n}\n\nint main() {\n  int x = ANY_VALUE; // declare x\n  int y = ANY_VALUE; // declare y\n  int main_result = 0; // declare the result\n\n  // invoke the function my_function\n  main_result = my_function(x, y);\n\n  return main_result; // return the result\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a call to `my_function`, and the result of this call is being used. The function `my_function` is marked as `static`, which will be translated into an IR function with internal linkage. The function should not have any attributes that prevent changing the calling convention, such as `varargs`, `address-taken`, or `musttail`. The `main` function must return a value related to this optimization for further comparison.\n\nThe `OPERATOR` could be any arithmetic or logical operator, such as `+`, `-`, `*`, `/`, `&`, `|`, etc. The `RANDOM_CODE` could be any code that does not affect the calling convention. Each declared variable should be initialized, such as `int a = 5;`.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 3105,
+                    "completion_tokens": 321,
+                    "total_tokens": 3426,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_6b68a8204b"
+            },
+            "code": [
+                "// declare a function with a specific calling convention\nstatic int my_function(int a, int b) {\n  int result = 0; // declare the result\n  RANDOM_CODE; // Do something here with input arguments\n  result = a OPERATOR b; // result is related to a and b\n  return result;\n}\n\nint main() {\n  int x = ANY_VALUE; // declare x\n  int y = ANY_VALUE; // declare y\n  int main_result = 0; // declare the result\n\n  // invoke the function my_function\n  main_result = my_function(x, y);\n\n  return main_result; // return the result\n}\n"
+            ],
+            "g_time": 7.040399074554443
+        }
+    }
+}
+{
+    "opt": "MergeFunctionsPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQjVSppVMqnHZzX034K5ziSYBU9N",
+                "object": "chat.completion",
+                "created": 1728717701,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define two functions with identical bodies\nint func1(int a, int b) {\n    int result = a + b; // Perform some operation\n    return result; // Return the result\n}\n\nint func2(int a, int b) {\n    int result = a + b; // Perform the same operation as func1\n    return result; // Return the result\n}\n\nint main() {\n    int x = 5, y = 10; // Declare and initialize variables\n    int result1 = func1(x, y); // Call the first function\n    int result2 = func2(x, y); // Call the second function\n    printf(\"Results: %d, %d\\n\", result1, result2); // Print the results\n    return 0; // Return from main\n}\n```\n\nThis pattern characterizes scenarios where there are two or more functions (`func1` and `func2`) with identical bodies, meaning they perform the same operations and return the same results given the same inputs. These functions should not have any external linkage or attributes that prevent merging. The `main` function calls these functions and uses their results, ensuring that the functions are not optimized away due to being unused. The presence of identical function bodies is the key characteristic that triggers the optimization.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1751,
+                    "completion_tokens": 282,
+                    "total_tokens": 2033,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_6b68a8204b"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define two functions with identical bodies\nint func1(int a, int b) {\n    int result = a + b; // Perform some operation\n    return result; // Return the result\n}\n\nint func2(int a, int b) {\n    int result = a + b; // Perform the same operation as func1\n    return result; // Return the result\n}\n\nint main() {\n    int x = 5, y = 10; // Declare and initialize variables\n    int result1 = func1(x, y); // Call the first function\n    int result2 = func2(x, y); // Call the second function\n    printf(\"Results: %d, %d\\n\", result1, result2); // Print the results\n    return 0; // Return from main\n}\n"
+            ],
+            "g_time": 3.7913379669189453
+        }
+    }
+}
+{
+    "opt": "PromotePassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQjZfZvZdvjvBfAWEvUiuhWlCKwe",
+                "object": "chat.completion",
+                "created": 1728717705,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a function that uses stack-allocated variables\nvoid example_function() {\n  // Declare variables using alloca\n  int a = 0; // Declare and initialize a variable\n  int b = 1; // Declare and initialize another variable\n\n  // Use the variables in a way that they can be promoted to registers\n  a = a + b; // Simple arithmetic operation\n  b = a * 2; // Another operation involving the variables\n\n  // Print the results to ensure the variables are used\n  printf(\"a: %d, b: %d\\n\", a, b);\n}\n\nint main() {\n  // Call the function\n  example_function();\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where within a function, variables are allocated on the stack using `alloca` and are used in a manner that allows them to be promoted to registers. The function should perform operations on these variables, such as arithmetic operations, and use them in a way that ensures they are live throughout the function. The `main` function should call this function to ensure the code is executed. The variables should be initialized and used in a straightforward manner, allowing the optimization to identify them as candidates for promotion to registers.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1699,
+                    "completion_tokens": 270,
+                    "total_tokens": 1969,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a function that uses stack-allocated variables\nvoid example_function() {\n  // Declare variables using alloca\n  int a = 0; // Declare and initialize a variable\n  int b = 1; // Declare and initialize another variable\n\n  // Use the variables in a way that they can be promoted to registers\n  a = a + b; // Simple arithmetic operation\n  b = a * 2; // Another operation involving the variables\n\n  // Print the results to ensure the variables are used\n  printf(\"a: %d, b: %d\\n\", a, b);\n}\n\nint main() {\n  // Call the function\n  example_function();\n  return 0;\n}\n"
+            ],
+            "g_time": 3.9546844959259033
+        }
+    }
+}
+{
+    "opt": "AlwaysInlinerPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQjdBRMYQVy87PRWcN7Xfw4cdXxa",
+                "object": "chat.completion",
+                "created": 1728717709,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n// declare a function with the 'inline' keyword\ninline int inline_func(int a, int b) {\n  return a + b; // simple operation using the parameters\n}\n\nint main() {\n  int result = 0; // declare a result variable\n  int x = 5; // initialize x\n  int y = 10; // initialize y\n\n  // call the inline function\n  result = inline_func(x, y);\n\n  return result; // return the result\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a call to an `inline` function, `inline_func`, which performs a simple operation on its parameters and returns the result. The `inline_func` is defined with the `inline` keyword, which suggests to the compiler that it should attempt to inline the function. The `main` function must return a value that is the result of the `inline_func` call. The program should be structured such that the inlining of `inline_func` is possible and beneficial, allowing the optimization to proceed.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1722,
+                    "completion_tokens": 231,
+                    "total_tokens": 1953,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_6b68a8204b"
+            },
+            "code": [
+                "// declare a function with the 'inline' keyword\ninline int inline_func(int a, int b) {\n  return a + b; // simple operation using the parameters\n}\n\nint main() {\n  int result = 0; // declare a result variable\n  int x = 5; // initialize x\n  int y = 10; // initialize y\n\n  // call the inline function\n  result = inline_func(x, y);\n\n  return result; // return the result\n}\n"
+            ],
+            "g_time": 3.5056962966918945
+        }
+    }
+}
+{
+    "opt": "LowerGlobalDtorsPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQjgFbL6TdDyB7ECaIHoEHeFUr0y",
+                "object": "chat.completion",
+                "created": 1728717712,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a destructor function\nvoid __attribute__((destructor)) my_destructor() {\n    // RANDOM_CODE: Any code that does not affect the global destructors\n    printf(\"Destructor called\\n\");\n}\n\n// Define another destructor function with a different priority\nvoid __attribute__((destructor(101))) another_destructor() {\n    // RANDOM_CODE: Any code that does not affect the global destructors\n    printf(\"Another destructor called\\n\");\n}\n\nint main() {\n    // RANDOM_CODE: Any code that does not affect the global destructors\n    printf(\"Main function\\n\");\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where the program defines one or more destructor functions using the `__attribute__((destructor))` attribute. These functions are registered to be called when the program exits. The destructors can have different priorities, which are specified by the optional integer argument to the `destructor` attribute. The `main` function contains code that does not interfere with the destructors. The destructors should not be null, and they should be associated with valid pointers. The program should ensure that the destructors are registered in a way that matches the expected structure of the `llvm.global_dtors` global variable in LLVM IR.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1974,
+                    "completion_tokens": 268,
+                    "total_tokens": 2242,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a destructor function\nvoid __attribute__((destructor)) my_destructor() {\n    // RANDOM_CODE: Any code that does not affect the global destructors\n    printf(\"Destructor called\\n\");\n}\n\n// Define another destructor function with a different priority\nvoid __attribute__((destructor(101))) another_destructor() {\n    // RANDOM_CODE: Any code that does not affect the global destructors\n    printf(\"Another destructor called\\n\");\n}\n\nint main() {\n    // RANDOM_CODE: Any code that does not affect the global destructors\n    printf(\"Main function\\n\");\n    return 0;\n}\n"
+            ],
+            "g_time": 3.6917412281036377
+        }
+    }
+}
+{
+    "opt": "StripSymbolsPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQjk4rkb7lVSIcR56GMp9uu4QgEw",
+                "object": "chat.completion",
+                "created": 1728717716,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a struct with a typedef\ntypedef struct {\n    int a;\n    float b;\n} MyStruct;\n\n// Define a global variable of the typedef struct\nMyStruct globalVar = {1, 2.0};\n\n// Define a function that uses the typedef struct\nvoid useStruct(MyStruct *s) {\n    printf(\"a: %d, b: %f\\n\", s->a, s->b);\n}\n\nint main() {\n    // Call the function with the global variable\n    useStruct(&globalVar);\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where the program defines a `typedef` for a `struct` and uses it in a global variable and a function. The `typedef` struct is used in a way that its type name is not essential for the program's functionality, allowing the optimization to strip the type names. The `main` function calls a function that utilizes the `typedef` struct, ensuring that the struct is actively used in the program. The program should not include any debug information that needs to be preserved, allowing the type names to be stripped without affecting the program's behavior.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1458,
+                    "completion_tokens": 247,
+                    "total_tokens": 1705,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a struct with a typedef\ntypedef struct {\n    int a;\n    float b;\n} MyStruct;\n\n// Define a global variable of the typedef struct\nMyStruct globalVar = {1, 2.0};\n\n// Define a function that uses the typedef struct\nvoid useStruct(MyStruct *s) {\n    printf(\"a: %d, b: %f\\n\", s->a, s->b);\n}\n\nint main() {\n    // Call the function with the global variable\n    useStruct(&globalVar);\n    return 0;\n}\n"
+            ],
+            "g_time": 3.372913360595703
+        }
+    }
+}
+{
+    "opt": "IPSCCPPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQjnnrvMarbXNig12IEDkspYXbBi",
+                "object": "chat.completion",
+                "created": 1728717719,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n// declare a global variable with an initial constant value\nstatic int global_var = CONSTANT_VALUE;\n\n// define a function that uses the global variable\nstatic int use_global_var() {\n  return global_var; // return the global variable\n}\n\nint main() {\n  int result = 0; // declare a result variable\n  // call the function that uses the global variable\n  result = use_global_var();\n  return result; // return the result\n}\n```\n\nThis pattern characterizes scenarios where a global variable is declared with a constant value and is only used in a function that returns its value. The global variable should not be modified after its initialization, and the function that uses it should be static, ensuring internal linkage. The `main` function calls this static function and returns its result. The global variable should be of a simple type, such as `int`, `float`, or `char`, and initialized with a constant value. The program should not perform any operations that would change the value of the global variable after its initialization.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2012,
+                    "completion_tokens": 221,
+                    "total_tokens": 2233,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "// declare a global variable with an initial constant value\nstatic int global_var = CONSTANT_VALUE;\n\n// define a function that uses the global variable\nstatic int use_global_var() {\n  return global_var; // return the global variable\n}\n\nint main() {\n  int result = 0; // declare a result variable\n  // call the function that uses the global variable\n  result = use_global_var();\n  return result; // return the result\n}\n"
+            ],
+            "g_time": 3.1764583587646484
+        }
+    }
+}
+{
+    "opt": "GVNPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQjqdphanSrNpRCE9u0tactvHhzM",
+                "object": "chat.completion",
+                "created": 1728717722,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a function that contains a basic block structure\nvoid example_function() {\n    int a = 10; // Initialize a variable\n    int b = 20; // Initialize another variable\n\n    // Create a simple control flow with a conditional branch\n    if (a < b) {\n        a = a + 1; // Increment a\n    } else {\n        a = a - 1; // Decrement a\n    }\n\n    // Another conditional branch that can be optimized\n    if (a < b) {\n        a = a + 1; // Increment a again\n    } else {\n        a = a - 1; // Decrement a again\n    }\n\n    // Use the variable to prevent dead code elimination\n    printf(\"%d\\n\", a);\n}\n\nint main() {\n    example_function(); // Call the function\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where within a function, there are multiple basic blocks with conditional branches that can be merged. The function should have a simple control flow with conditional branches that can be optimized by merging blocks. The `example_function` contains two conditional branches with similar conditions and operations, which can be optimized by merging the blocks. The `main` function calls this function to ensure the code is executed. The program should avoid complex control flows or side effects that prevent block merging, such as exceptional terminators or side-effecting instructions. The use of variables and operations should be simple and straightforward to allow the optimization to identify and merge redundant blocks.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2120,
+                    "completion_tokens": 328,
+                    "total_tokens": 2448,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a function that contains a basic block structure\nvoid example_function() {\n    int a = 10; // Initialize a variable\n    int b = 20; // Initialize another variable\n\n    // Create a simple control flow with a conditional branch\n    if (a < b) {\n        a = a + 1; // Increment a\n    } else {\n        a = a - 1; // Decrement a\n    }\n\n    // Another conditional branch that can be optimized\n    if (a < b) {\n        a = a + 1; // Increment a again\n    } else {\n        a = a - 1; // Decrement a again\n    }\n\n    // Use the variable to prevent dead code elimination\n    printf(\"%d\\n\", a);\n}\n\nint main() {\n    example_function(); // Call the function\n    return 0;\n}\n"
+            ],
+            "g_time": 4.115628480911255
+        }
+    }
+}
+{
+    "opt": "SROAPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQjuGV8Z8oNz4g2YaCiBK6UDleEX",
+                "object": "chat.completion",
+                "created": 1728717726,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a struct with multiple fields\ntypedef struct {\n    int a;\n    float b;\n    char c;\n} MyStruct;\n\n// Function that uses the struct\nvoid useStruct(MyStruct *s) {\n    // Perform operations on the struct fields\n    s->a = 10;\n    s->b = 20.5;\n    s->c = 'z';\n}\n\nint main() {\n    // Declare a struct variable\n    MyStruct s;\n\n    // Call the function that uses the struct\n    useStruct(&s);\n\n    // Print the struct fields\n    printf(\"%d %f %c\\n\", s.a, s.b, s.c);\n\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where a `struct` is defined with multiple fields of different types. The `main` function declares a variable of this `struct` type and passes it to a function that modifies its fields. The function `useStruct` performs operations on the struct fields, which can include assignments or other manipulations. The `main` function then prints the values of the struct fields. The struct is used in a way that allows the optimization to analyze and potentially eliminate dead instructions related to the struct's memory allocation and usage.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1590,
+                    "completion_tokens": 268,
+                    "total_tokens": 1858,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a struct with multiple fields\ntypedef struct {\n    int a;\n    float b;\n    char c;\n} MyStruct;\n\n// Function that uses the struct\nvoid useStruct(MyStruct *s) {\n    // Perform operations on the struct fields\n    s->a = 10;\n    s->b = 20.5;\n    s->c = 'z';\n}\n\nint main() {\n    // Declare a struct variable\n    MyStruct s;\n\n    // Call the function that uses the struct\n    useStruct(&s);\n\n    // Print the struct fields\n    printf(\"%d %f %c\\n\", s.a, s.b, s.c);\n\n    return 0;\n}\n"
+            ],
+            "g_time": 3.455885648727417
+        }
+    }
+}
+{
+    "opt": "DCEPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQjyDY35E0sY3MsaoXPzfrOLnd5G",
+                "object": "chat.completion",
+                "created": 1728717730,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// declare variables\nint x = ANY_VALUE; // declare x\nANY_TYPE y = ANY_VALUE; // declare y\nANY_TYPE z = ANY_VALUE; // declare z\n\nint main() {\n  int main_result = 0; // declare the result\n\n  // perform some operations that result in dead code\n  int unused_var = x OPERATOR ANY_VALUE; // this operation is not used anywhere\n\n  // use some variables in a way that does not affect the unused_var\n  main_result = y OPERATOR z; // perform some operation with y and z\n\n  printf(\"%d\\n\", main_result); // print the result to ensure side effects\n\n  return main_result; // return the result\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists an operation that results in a variable (`unused_var`) being computed but never used, making it a candidate for dead code elimination. The `main` function performs other operations that do not depend on `unused_var`, ensuring that `unused_var` is indeed dead code. The `OPERATOR` could be any operator that results in a computation, such as `+`, `-`, `*`, `/`, etc. The `ANY_TYPE` could be any valid C type, such as `int`, `float`, `double`, etc., and `ANY_VALUE` should be a value compatible with the type. The `main` function must return a value to ensure the program has a meaningful exit status.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1835,
+                    "completion_tokens": 321,
+                    "total_tokens": 2156,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_6b68a8204b"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// declare variables\nint x = ANY_VALUE; // declare x\nANY_TYPE y = ANY_VALUE; // declare y\nANY_TYPE z = ANY_VALUE; // declare z\n\nint main() {\n  int main_result = 0; // declare the result\n\n  // perform some operations that result in dead code\n  int unused_var = x OPERATOR ANY_VALUE; // this operation is not used anywhere\n\n  // use some variables in a way that does not affect the unused_var\n  main_result = y OPERATOR z; // perform some operation with y and z\n\n  printf(\"%d\\n\", main_result); // print the result to ensure side effects\n\n  return main_result; // return the result\n}\n"
+            ],
+            "g_time": 3.953630208969116
+        }
+    }
+}
+{
+    "opt": "SimplifyCFGPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQk2K5NnSwoJuNI1HCapDYejw65I",
+                "object": "chat.completion",
+                "created": 1728717734,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    int x = 0; // declare and initialize a variable\n    int y = 1; // declare and initialize another variable\n\n    // A simple conditional structure that creates an unreachable block\n    if (x > y) {\n        // This block is unreachable because x is not greater than y\n        printf(\"Unreachable block\\n\");\n    } else {\n        // This block is reachable\n        printf(\"Reachable block\\n\");\n    }\n\n    // A loop that never executes, creating another unreachable block\n    while (x > y) {\n        printf(\"Unreachable loop block\\n\");\n    }\n\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there are conditional structures or loops that create unreachable blocks of code. The unreachable blocks are those that cannot be executed due to the logic of the program, such as a condition that is always false. The `main` function must include these unreachable blocks to trigger the optimization. The program should have at least one block of code that is unreachable due to the logic of the program, such as a condition that is always false or a loop that never executes. The presence of these unreachable blocks will allow the optimization to identify and remove them, thus making the boolean variable `Changed` equal to `True`.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1784,
+                    "completion_tokens": 284,
+                    "total_tokens": 2068,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    int x = 0; // declare and initialize a variable\n    int y = 1; // declare and initialize another variable\n\n    // A simple conditional structure that creates an unreachable block\n    if (x > y) {\n        // This block is unreachable because x is not greater than y\n        printf(\"Unreachable block\\n\");\n    } else {\n        // This block is reachable\n        printf(\"Reachable block\\n\");\n    }\n\n    // A loop that never executes, creating another unreachable block\n    while (x > y) {\n        printf(\"Unreachable loop block\\n\");\n    }\n\n    return 0;\n}\n"
+            ],
+            "g_time": 3.5221102237701416
+        }
+    }
+}
+{
+    "opt": "EarlyCSEPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQk6DZo9Ozu0jVW70jRUZFjE3Ke7",
+                "object": "chat.completion",
+                "created": 1728717738,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    // Declare and initialize variables\n    int a = 5;\n    int b = 10;\n    int c = 5; // Same value as 'a' to trigger common subexpression elimination\n\n    // Perform operations that can be simplified\n    int result1 = a + b; // First computation\n    int result2 = c + b; // Second computation, same as result1\n\n    // Use the results\n    printf(\"Result1: %d\\n\", result1);\n    printf(\"Result2: %d\\n\", result2);\n\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there are multiple computations that produce the same result due to identical operations on identical operands. The program should include operations that can be simplified or eliminated by recognizing common subexpressions. The `main` function should perform operations that result in identical expressions, allowing the optimization to replace redundant computations with previously computed values. The program should use these results in a way that makes the optimization beneficial, such as printing or returning them.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 5578,
+                    "completion_tokens": 239,
+                    "total_tokens": 5817,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    // Declare and initialize variables\n    int a = 5;\n    int b = 10;\n    int c = 5; // Same value as 'a' to trigger common subexpression elimination\n\n    // Perform operations that can be simplified\n    int result1 = a + b; // First computation\n    int result2 = c + b; // Second computation, same as result1\n\n    // Use the results\n    printf(\"Result1: %d\\n\", result1);\n    printf(\"Result2: %d\\n\", result2);\n\n    return 0;\n}\n"
+            ],
+            "g_time": 3.779325485229492
+        }
+    }
+}
+{
+    "opt": "InstCombineComparesPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQk99TGRBTK7EeDsif2ajj05YFyP",
+                "object": "chat.completion",
+                "created": 1728717741,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a global constant array\nconst int global_array[] = {ANY_CONSTANT_VALUES}; // The array should have a size less than MaxArraySizeForCombine\n\nint main() {\n    // Declare a variable to store the result\n    int result = 0;\n\n    // Use a loop or direct access to index into the global array\n    for (int i = 0; i < ARRAY_SIZE; ++i) {\n        // Perform a comparison operation with a constant\n        if (global_array[i] OPERATOR ANY_CONSTANT) {\n            // Update the result based on the comparison\n            result = i; // or any operation that uses the index\n        }\n    }\n\n    // Return the result\n    return result;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there is a loop or direct access to a global constant array. The program performs a comparison operation on each element of the array with a constant value. The result of the comparison is used to update a variable, which is then returned by the `main` function. The global array should be defined with constant values, and its size should be less than a predefined maximum size (`MaxArraySizeForCombine`). The comparison operation should be such that it can be optimized by the LLVM pass. The `OPERATOR` could be any comparison operator like `==`, `!=`, `<`, `>`, `<=`, or `>=`. The `ANY_CONSTANT_VALUES` and `ANY_CONSTANT` should be chosen to match the type of the array elements.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2910,
+                    "completion_tokens": 329,
+                    "total_tokens": 3239,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a global constant array\nconst int global_array[] = {ANY_CONSTANT_VALUES}; // The array should have a size less than MaxArraySizeForCombine\n\nint main() {\n    // Declare a variable to store the result\n    int result = 0;\n\n    // Use a loop or direct access to index into the global array\n    for (int i = 0; i < ARRAY_SIZE; ++i) {\n        // Perform a comparison operation with a constant\n        if (global_array[i] OPERATOR ANY_CONSTANT) {\n            // Update the result based on the comparison\n            result = i; // or any operation that uses the index\n        }\n    }\n\n    // Return the result\n    return result;\n}\n"
+            ],
+            "g_time": 4.341594457626343
+        }
+    }
+}
+{
+    "opt": "DSEPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkDqOAunKt5v4yqK4T67CpumGR2",
+                "object": "chat.completion",
+                "created": 1728717745,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdlib.h>\n#include <string.h>\n\nint main() {\n    // Allocate memory\n    char *buffer = (char *)malloc(100);\n    if (!buffer) return -1;\n\n    // Perform a store operation\n    memset(buffer, 0, 100);\n\n    // Perform another store operation that overwrites the previous one\n    memset(buffer, 1, 100);\n\n    // Free the allocated memory\n    free(buffer);\n\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there are memory allocation and store operations that overwrite previous stores without any intervening reads. The `malloc` function is used to allocate memory, and `memset` is used to perform store operations. The second `memset` overwrites the memory set by the first `memset`, making the first store operation redundant. The `free` function is used to deallocate the memory. The `main` function returns an integer value, typically `0` for successful execution.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 3342,
+                    "completion_tokens": 220,
+                    "total_tokens": 3562,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdlib.h>\n#include <string.h>\n\nint main() {\n    // Allocate memory\n    char *buffer = (char *)malloc(100);\n    if (!buffer) return -1;\n\n    // Perform a store operation\n    memset(buffer, 0, 100);\n\n    // Perform another store operation that overwrites the previous one\n    memset(buffer, 1, 100);\n\n    // Free the allocated memory\n    free(buffer);\n\n    return 0;\n}\n"
+            ],
+            "g_time": 3.034655809402466
+        }
+    }
+}
+{
+    "opt": "RegToMemPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkHeBMMbDXSGf2fHVgg70EwyJ6j",
+                "object": "chat.completion",
+                "created": 1728717749,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a function that uses local variables\nvoid example_function() {\n  // Declare multiple local variables\n  int a = 10;\n  float b = 20.5;\n  char c = 'c';\n\n  // Perform some operations using these variables\n  a += 5;\n  b *= 2.0;\n  c = 'd';\n\n  // Print the results\n  printf(\"a: %d, b: %f, c: %c\\n\", a, b, c);\n}\n\nint main() {\n  // Call the function\n  example_function();\n\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where within a function, multiple local variables are declared and initialized. These variables are then used in some operations, such as arithmetic or logical operations, and the results are used or printed. The function is called from the `main` function. The presence of multiple local variables and their usage in operations can lead to the generation of `alloca` instructions in the LLVM IR, which are necessary for the optimization to be triggered. The `main` function must call this function to ensure the code is executed.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1624,
+                    "completion_tokens": 249,
+                    "total_tokens": 1873,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a function that uses local variables\nvoid example_function() {\n  // Declare multiple local variables\n  int a = 10;\n  float b = 20.5;\n  char c = 'c';\n\n  // Perform some operations using these variables\n  a += 5;\n  b *= 2.0;\n  c = 'd';\n\n  // Print the results\n  printf(\"a: %d, b: %f, c: %c\\n\", a, b, c);\n}\n\nint main() {\n  // Call the function\n  example_function();\n\n  return 0;\n}\n"
+            ],
+            "g_time": 3.475421190261841
+        }
+    }
+}
+{
+    "opt": "GlobalDCEPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkKyhVRmrU6WdMi2IfQwpsQrLrc",
+                "object": "chat.completion",
+                "created": 1728717752,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n// declare a static function that is never called\nstatic int unused_function() {\n  int result = 0; // declare a result variable\n  RANDOM_CODE; // Do something here, but ensure the function is never called\n  return result;\n}\n\nint main() {\n  int main_result = 0; // declare the result\n  // main function does not call unused_function\n  RANDOM_CODE; // Do something here, but do not call unused_function\n  return main_result; // return the result\n}\n```\n\nThis pattern characterizes scenarios where there is a static function, `unused_function`, that is defined but never called within the program. The function should perform some operations, represented by `RANDOM_CODE`, but it should not be invoked anywhere in the `main` function or elsewhere in the program. The `main` function should execute some code, also represented by `RANDOM_CODE`, but it should not include a call to `unused_function`. The `RANDOM_CODE` can be any code that does not involve calling `unused_function`. The `main` function must return a value, but this value should not be related to `unused_function`. The presence of `unused_function` without any calls to it allows the optimization to identify it as dead code, triggering the optimization pass.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1679,
+                    "completion_tokens": 276,
+                    "total_tokens": 1955,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_6b68a8204b"
+            },
+            "code": [
+                "// declare a static function that is never called\nstatic int unused_function() {\n  int result = 0; // declare a result variable\n  RANDOM_CODE; // Do something here, but ensure the function is never called\n  return result;\n}\n\nint main() {\n  int main_result = 0; // declare the result\n  // main function does not call unused_function\n  RANDOM_CODE; // Do something here, but do not call unused_function\n  return main_result; // return the result\n}\n"
+            ],
+            "g_time": 3.592602014541626
+        }
+    }
+}
+{
+    "opt": "InstCombineLoadStoreAllocaPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkOwlyCE9bXIl99LGaQObi8anT1",
+                "object": "chat.completion",
+                "created": 1728717756,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <string.h>\n\nint main() {\n  // Declare and initialize a constant array\n  const int const_array[] = {1, 2, 3, 4, 5};\n\n  // Declare a local array with automatic storage duration\n  int local_array[5];\n\n  // Use memcpy to copy data from the constant array to the local array\n  memcpy(local_array, const_array, sizeof(const_array));\n\n  // Use the local array in some way to ensure it is not optimized away\n  int result = local_array[0] + local_array[1];\n\n  return result;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there is a local array `local_array` that is initialized using `memcpy` from a constant array `const_array`. The `memcpy` operation ensures that the local array is only modified by copying from a memory location whose alignment is equal to or exceeds that of the allocation. The local array is then used in some computation to ensure it is not optimized away. The `main` function returns a value derived from the local array to ensure the result is used. This setup allows the optimization to replace the local array with the constant array, triggering the optimization pass.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1957,
+                    "completion_tokens": 264,
+                    "total_tokens": 2221,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_6b68a8204b"
+            },
+            "code": [
+                "#include <string.h>\n\nint main() {\n  // Declare and initialize a constant array\n  const int const_array[] = {1, 2, 3, 4, 5};\n\n  // Declare a local array with automatic storage duration\n  int local_array[5];\n\n  // Use memcpy to copy data from the constant array to the local array\n  memcpy(local_array, const_array, sizeof(const_array));\n\n  // Use the local array in some way to ensure it is not optimized away\n  int result = local_array[0] + local_array[1];\n\n  return result;\n}\n"
+            ],
+            "g_time": 3.3940045833587646
+        }
+    }
+}
+{
+    "opt": "InstCombineCastPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkR9UdHauXSKF2U7bq5NsUzRllT",
+                "object": "chat.completion",
+                "created": 1728717759,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// declare variables\nANY_TYPE x = ANY_VALUE; // declare x\nANY_TYPE y = ANY_VALUE; // declare y\n\nint main() {\n  // perform operations that involve type casting\n  ANY_TYPE result = (ANY_TYPE) x OPERATOR (ANY_TYPE) y; // cast x and y to a different type and perform an operation\n  printf(\"%d\\n\", (int) result); // print the result, cast to int for demonstration\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there are operations involving type casting between different types. The program should include explicit type casts that can be optimized away by evaluating the expression in a different type. The `ANY_TYPE` could be `char, unsigned, int, float, double, ptr, struct, array, etc.`, and the `ANY_VALUE` should be aligned with the type. The `OPERATOR` could be any arithmetic or bitwise operator such as `+,-,*,/,%,<<,>>,|,&,^`. The program should perform operations that involve truncation or extension of types, which can be optimized by evaluating the expression in a different type. The `main` function should return a value or print a result that is related to the optimization for further comparison.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1624,
+                    "completion_tokens": 280,
+                    "total_tokens": 1904,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// declare variables\nANY_TYPE x = ANY_VALUE; // declare x\nANY_TYPE y = ANY_VALUE; // declare y\n\nint main() {\n  // perform operations that involve type casting\n  ANY_TYPE result = (ANY_TYPE) x OPERATOR (ANY_TYPE) y; // cast x and y to a different type and perform an operation\n  printf(\"%d\\n\", (int) result); // print the result, cast to int for demonstration\n  return 0;\n}\n"
+            ],
+            "g_time": 3.565675735473633
+        }
+    }
+}
+{
+    "opt": "CodeGenPreparePassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkUfgIlThxqayX2D3yaEKPHGpMW",
+                "object": "chat.completion",
+                "created": 1728717762,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a function with a switch statement\nint switch_func(int x) {\n  int result = 0; // declare the result\n  switch (x) {\n    case 1:\n      result = x + 1;\n      break;\n    case 2:\n      result = x + 2;\n      break;\n    default:\n      result = x + 3;\n      break;\n  }\n  return result;\n}\n\nint main() {\n  int main_result = 0; // declare the result\n  int x = 1; // initialize x with a constant value\n  main_result = switch_func(x); // call the function with a constant argument\n  printf(\"%d\\n\", main_result); // print the result\n  return main_result; // return the result\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a call to `switch_func`, and the result of this call is being used. The `switch_func` contains a switch statement that branches based on the value of `x`. The key characteristic is that the argument passed to `switch_func` is a constant, which allows the switch statement to be optimized into a simpler control flow, such as an unconditional branch or a conditional branch with fewer cases. The `main` function must return a value related to this optimization for further comparison.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 4066,
+                    "completion_tokens": 291,
+                    "total_tokens": 4357,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a function with a switch statement\nint switch_func(int x) {\n  int result = 0; // declare the result\n  switch (x) {\n    case 1:\n      result = x + 1;\n      break;\n    case 2:\n      result = x + 2;\n      break;\n    default:\n      result = x + 3;\n      break;\n  }\n  return result;\n}\n\nint main() {\n  int main_result = 0; // declare the result\n  int x = 1; // initialize x with a constant value\n  main_result = switch_func(x); // call the function with a constant argument\n  printf(\"%d\\n\", main_result); // print the result\n  return main_result; // return the result\n}\n"
+            ],
+            "g_time": 3.6386237144470215
+        }
+    }
+}
+{
+    "opt": "LoopExtractorPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkYxNIpmyeWyCgTxxuIYVjsv3Cc",
+                "object": "chat.completion",
+                "created": 1728717766,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a function that contains a loop\nvoid loop_function() {\n  int i;\n  int sum = 0; // Initialize a variable to accumulate results\n\n  // A simple loop that iterates a fixed number of times\n  for (i = 0; i < 10; i++) {\n    sum += i; // Accumulate the sum of the loop index\n  }\n\n  // Print the result to ensure the loop is not optimized away\n  printf(\"Sum: %d\\n\", sum);\n}\n\nint main() {\n  // Call the function containing the loop\n  loop_function();\n\n  return 0; // Return 0 to indicate successful execution\n}\n```\n\nThis pattern characterizes scenarios where a function, such as `loop_function`, contains a loop that iterates a fixed number of times. The loop performs a simple operation, like accumulating a sum, which ensures that the loop is not trivially optimized away. The function is then called from the `main` function. The loop should be simple enough to be a candidate for extraction, and the function should be structured in a way that allows the loop to be isolated and extracted by the optimization pass. The `main` function must call this function to ensure the loop is executed.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1533,
+                    "completion_tokens": 271,
+                    "total_tokens": 1804,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a function that contains a loop\nvoid loop_function() {\n  int i;\n  int sum = 0; // Initialize a variable to accumulate results\n\n  // A simple loop that iterates a fixed number of times\n  for (i = 0; i < 10; i++) {\n    sum += i; // Accumulate the sum of the loop index\n  }\n\n  // Print the result to ensure the loop is not optimized away\n  printf(\"Sum: %d\\n\", sum);\n}\n\nint main() {\n  // Call the function containing the loop\n  loop_function();\n\n  return 0; // Return 0 to indicate successful execution\n}\n"
+            ],
+            "g_time": 3.8997132778167725
+        }
+    }
+}
+{
+    "opt": "AggressiveInstCombinePassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkcXssq7j0F6PhmvUScBZqtEbrl",
+                "object": "chat.completion",
+                "created": 1728717770,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// declare variables\nANY_TYPE a = ANY_VALUE; // declare a\nANY_TYPE b = ANY_VALUE; // declare b\nANY_TYPE c = ANY_VALUE; // declare c\n\n// define a function that performs operations leading to truncation\nstatic ANY_TYPE trunc_func(ANY_TYPE a, ANY_TYPE b, ANY_TYPE c) {\n  ANY_TYPE result = 0; // declare the result\n  RANDOM_CODE; // Do something here with input arguments\n  result = (ANY_TYPE)((TRUNC_TYPE)(a OPERATOR b)) OPERATOR c; // perform operations with truncation\n  return result;\n}\n\nint main() {\n  ANY_TYPE main_result = 0; // declare the result\n  // invoke the func trunc_func\n  main_result = trunc_func(a, b, c);\n  printf(\"%d\\n\", main_result); // print the result\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a call to `trunc_func`, and the result of this call is being used. The `trunc_func` is marked as static and performs operations that involve truncation of data types. The function returns a single `ANY_TYPE` value that is determined by the operations on its arguments. The `ANY_TYPE` could be `int, float, double, etc.`, and the `TRUNC_TYPE` is a smaller data type, such as `char` or `short`, which causes truncation. The `OPERATOR` could be any arithmetic or bitwise operator, such as `+,-,*,/,%,<<,>>,|,&,^`. The `RANDOM_CODE` could be any code that does not affect the truncation logic. Each declared variable should be initialized, such as `int a = 10;`. The `main` function must return a value related to this optimization for further comparison.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1592,
+                    "completion_tokens": 402,
+                    "total_tokens": 1994,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// declare variables\nANY_TYPE a = ANY_VALUE; // declare a\nANY_TYPE b = ANY_VALUE; // declare b\nANY_TYPE c = ANY_VALUE; // declare c\n\n// define a function that performs operations leading to truncation\nstatic ANY_TYPE trunc_func(ANY_TYPE a, ANY_TYPE b, ANY_TYPE c) {\n  ANY_TYPE result = 0; // declare the result\n  RANDOM_CODE; // Do something here with input arguments\n  result = (ANY_TYPE)((TRUNC_TYPE)(a OPERATOR b)) OPERATOR c; // perform operations with truncation\n  return result;\n}\n\nint main() {\n  ANY_TYPE main_result = 0; // declare the result\n  // invoke the func trunc_func\n  main_result = trunc_func(a, b, c);\n  printf(\"%d\\n\", main_result); // print the result\n  return 0;\n}\n"
+            ],
+            "g_time": 4.637721061706543
+        }
+    }
+}
+{
+    "opt": "LoopFusePassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkhjpPv3A60OXCSqMOg59EtusxX",
+                "object": "chat.completion",
+                "created": 1728717775,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    int i, j, k;\n    int array1[10], array2[10], array3[10];\n\n    // Initialize arrays\n    for (i = 0; i < 10; i++) {\n        array1[i] = i;\n        array2[i] = i * 2;\n    }\n\n    // First loop: perform some operations on array1\n    for (j = 0; j < 10; j++) {\n        array1[j] += 1;\n    }\n\n    // Second loop: perform some operations on array2\n    for (k = 0; k < 10; k++) {\n        array2[k] += 2;\n    }\n\n    // Use the results of the loops\n    for (i = 0; i < 10; i++) {\n        array3[i] = array1[i] + array2[i];\n    }\n\n    // Print the results\n    for (i = 0; i < 10; i++) {\n        printf(\"%d \", array3[i]);\n    }\n\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where there are multiple loops that iterate over the same range and perform independent operations on different arrays or data structures. The loops are simple and do not have complex control flow or dependencies between them. The loops should be adjacent or close to each other in the code, allowing for potential fusion. The `main` function initializes arrays, performs operations in separate loops, and then combines the results, which can be used to trigger the optimization. The loops should be structured in a way that they can be fused into a single loop without changing the program's semantics.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2199,
+                    "completion_tokens": 364,
+                    "total_tokens": 2563,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    int i, j, k;\n    int array1[10], array2[10], array3[10];\n\n    // Initialize arrays\n    for (i = 0; i < 10; i++) {\n        array1[i] = i;\n        array2[i] = i * 2;\n    }\n\n    // First loop: perform some operations on array1\n    for (j = 0; j < 10; j++) {\n        array1[j] += 1;\n    }\n\n    // Second loop: perform some operations on array2\n    for (k = 0; k < 10; k++) {\n        array2[k] += 2;\n    }\n\n    // Use the results of the loops\n    for (i = 0; i < 10; i++) {\n        array3[i] = array1[i] + array2[i];\n    }\n\n    // Print the results\n    for (i = 0; i < 10; i++) {\n        printf(\"%d \", array3[i]);\n    }\n\n    return 0;\n}\n"
+            ],
+            "g_time": 4.710896730422974
+        }
+    }
+}
+{
+    "opt": "ArgumentPromotionPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkmebPgeq4aCVqc8ZmsHoqNSJ1Y",
+                "object": "chat.completion",
+                "created": 1728717780,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a function with pointer arguments\nstatic void pointer_func(int *a, float *b, double *c) {\n  // Perform operations using the pointer arguments\n  if (a) *a += 1;\n  if (b) *b *= 2.0f;\n  if (c) *c -= 3.0;\n}\n\nint main() {\n  int x = 10;\n  float y = 5.5f;\n  double z = 20.0;\n\n  // Call the function with direct pointer arguments\n  pointer_func(&x, &y, &z);\n\n  // Print the results\n  printf(\"x: %d, y: %.2f, z: %.2f\\n\", x, y, z);\n\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a call to `pointer_func`, which is a static function with pointer arguments. The function should not be variadic, should not have the `naked` attribute, and should have local linkage. The function should be called directly, without any indirect calls or address-taking. The `pointer_func` should perform operations on the pointer arguments, and the `main` function should use the results of these operations. The program should not contain any `musttail` calls or functions with `inalloca` attributes. The `main` function must return a value related to this optimization for further comparison.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2386,
+                    "completion_tokens": 317,
+                    "total_tokens": 2703,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a function with pointer arguments\nstatic void pointer_func(int *a, float *b, double *c) {\n  // Perform operations using the pointer arguments\n  if (a) *a += 1;\n  if (b) *b *= 2.0f;\n  if (c) *c -= 3.0;\n}\n\nint main() {\n  int x = 10;\n  float y = 5.5f;\n  double z = 20.0;\n\n  // Call the function with direct pointer arguments\n  pointer_func(&x, &y, &z);\n\n  // Print the results\n  printf(\"x: %d, y: %.2f, z: %.2f\\n\", x, y, z);\n\n  return 0;\n}\n"
+            ],
+            "g_time": 3.9819958209991455
+        }
+    }
+}
+{
+    "opt": "LICMPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkphLjfzAUvB0aN1e9gaiv1AuEc",
+                "object": "chat.completion",
+                "created": 1728717783,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    int result = 0; // declare the result\n    int i, j; // loop variables\n    int array[10][10]; // declare a 2D array\n\n    // Initialize the array with some values\n    for (i = 0; i < 10; ++i) {\n        for (j = 0; j < 10; ++j) {\n            array[i][j] = i * j; // some computation\n        }\n    }\n\n    // Outer loop\n    for (i = 0; i < 10; ++i) {\n        // Inner loop\n        for (j = 0; j < 10; ++j) {\n            // Perform some computation that involves a condition\n            if (array[i][j] % 2 == 0) {\n                result += array[i][j]; // accumulate result\n            }\n        }\n    }\n\n    // Return the result\n    return result;\n}\n```\n\nThis pattern characterizes scenarios where there are nested loops, and within the inner loop, there is a computation involving a condition that uses elements from a data structure like an array. The computation should be such that it can be optimized by moving invariant code out of the loop. The `main` function initializes a data structure, performs computations within nested loops, and returns a result that is influenced by these computations. The loops should be structured in a way that allows for potential code motion optimizations, such as sinking or hoisting of instructions, which can lead to the use of poison values for unreachable code paths.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2749,
+                    "completion_tokens": 343,
+                    "total_tokens": 3092,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    int result = 0; // declare the result\n    int i, j; // loop variables\n    int array[10][10]; // declare a 2D array\n\n    // Initialize the array with some values\n    for (i = 0; i < 10; ++i) {\n        for (j = 0; j < 10; ++j) {\n            array[i][j] = i * j; // some computation\n        }\n    }\n\n    // Outer loop\n    for (i = 0; i < 10; ++i) {\n        // Inner loop\n        for (j = 0; j < 10; ++j) {\n            // Perform some computation that involves a condition\n            if (array[i][j] % 2 == 0) {\n                result += array[i][j]; // accumulate result\n            }\n        }\n    }\n\n    // Return the result\n    return result;\n}\n"
+            ],
+            "g_time": 4.10644793510437
+        }
+    }
+}
+{
+    "opt": "LoopStrengthReducePassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkupcYw8EmpIgXYP4iDuLfBDJJs",
+                "object": "chat.completion",
+                "created": 1728717788,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    int sum = 0; // Initialize a variable to accumulate the sum\n    int i; // Loop counter\n\n    // A simple loop with a linear induction variable\n    for (i = 0; i < 10; i++) {\n        sum += i; // Accumulate the sum of the loop counter\n    }\n\n    printf(\"Sum: %d\\n\", sum); // Print the result\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where there is a loop with a simple induction variable, such as `i` in the `for` loop. The loop counter is incremented by a constant value (in this case, `1`), and the loop performs a straightforward operation, like accumulating a sum. The loop should be structured in a way that allows for potential strength reduction optimizations, such as replacing expensive operations with cheaper ones. The loop should be in a form that can be analyzed and transformed by the optimization pass, such as having a clear loop header and exit condition. The `main` function must return a value related to this optimization for further comparison.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2738,
+                    "completion_tokens": 245,
+                    "total_tokens": 2983,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    int sum = 0; // Initialize a variable to accumulate the sum\n    int i; // Loop counter\n\n    // A simple loop with a linear induction variable\n    for (i = 0; i < 10; i++) {\n        sum += i; // Accumulate the sum of the loop counter\n    }\n\n    printf(\"Sum: %d\\n\", sum); // Print the result\n    return 0;\n}\n"
+            ],
+            "g_time": 3.1960692405700684
+        }
+    }
+}
+{
+    "opt": "InstCombineAddSubPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQkxYY9K86ROI9etz4DUdXf05EMN",
+                "object": "chat.completion",
+                "created": 1728717791,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    // Declare and initialize floating-point variables\n    float x = ANY_FLOAT_VALUE; // e.g., 1.0f\n    float y = ANY_FLOAT_VALUE; // e.g., 2.0f\n    float z = ANY_FLOAT_VALUE; // e.g., 3.0f\n    float w = ANY_FLOAT_VALUE; // e.g., 4.0f\n\n    // Perform a series of floating-point operations\n    // The operations should be structured to match the pattern:\n    // ((x - y) + z) - w\n    float result = ((x - y) + z) - w;\n\n    // Print the result to ensure the computation is used\n    printf(\"Result: %f\\n\", result);\n\n    return 0;\n}\n```\n\n### Characteristics of the C Program:\n\n1. **Floating-Point Operations**: The program should involve floating-point arithmetic operations, specifically subtraction and addition.\n\n2. **Expression Pattern**: The expression `((x - y) + z) - w` is crucial. This pattern is designed to match the reassociation logic in the optimization pass, which looks for opportunities to rearrange operations to create more addition instructions and reduce dependency chains.\n\n3. **Variable Initialization**: The variables `x`, `y`, `z`, and `w` should be initialized with any floating-point values. These values can be constants or derived from other computations.\n\n4. **Use of Result**: The result of the computation should be used in some way, such as being printed, to ensure that the compiler does not optimize away the computation entirely.\n\n5. **No Special Attributes**: The program should not involve any special attributes or function calls that would prevent the optimization from being applied, such as functions with special linkage or attributes that prevent reassociation.\n\nBy structuring the program in this way, it aligns with the conditions in the optimization pass that look for specific patterns in floating-point arithmetic to apply transformations.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2363,
+                    "completion_tokens": 422,
+                    "total_tokens": 2785,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    // Declare and initialize floating-point variables\n    float x = ANY_FLOAT_VALUE; // e.g., 1.0f\n    float y = ANY_FLOAT_VALUE; // e.g., 2.0f\n    float z = ANY_FLOAT_VALUE; // e.g., 3.0f\n    float w = ANY_FLOAT_VALUE; // e.g., 4.0f\n\n    // Perform a series of floating-point operations\n    // The operations should be structured to match the pattern:\n    // ((x - y) + z) - w\n    float result = ((x - y) + z) - w;\n\n    // Print the result to ensure the computation is used\n    printf(\"Result: %f\\n\", result);\n\n    return 0;\n}\n"
+            ],
+            "g_time": 4.991907835006714
+        }
+    }
+}
+{
+    "opt": "IndVarSimplifyPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQl2HHBcpHjbV9AUwLZ23097j8Sd",
+                "object": "chat.completion",
+                "created": 1728717796,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    int sum = 0; // Initialize a sum variable\n    int limit = ANY_POSITIVE_INTEGER; // Define a loop limit\n\n    // A simple loop with an induction variable\n    for (int i = 0; i < limit; i++) {\n        sum += i; // Accumulate the sum of the induction variable\n    }\n\n    printf(\"Sum: %d\\n\", sum); // Print the result\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a loop with a simple induction variable, such as `i` in the `for` loop. The loop iterates over a range defined by a positive integer limit, and the induction variable is used in a straightforward arithmetic operation, such as accumulating a sum. The loop should be structured in a way that allows for potential simplification and extension of the induction variable, which is a key aspect of the optimization process. The `main` function must return a value or print a result related to the loop's computation for further analysis.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2158,
+                    "completion_tokens": 237,
+                    "total_tokens": 2395,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    int sum = 0; // Initialize a sum variable\n    int limit = ANY_POSITIVE_INTEGER; // Define a loop limit\n\n    // A simple loop with an induction variable\n    for (int i = 0; i < limit; i++) {\n        sum += i; // Accumulate the sum of the induction variable\n    }\n\n    printf(\"Sum: %d\\n\", sum); // Print the result\n    return 0;\n}\n"
+            ],
+            "g_time": 3.3405215740203857
+        }
+    }
+}
+{
+    "opt": "JumpThreadingPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQl5adrMf4FmCYVN6LE5enTFGlpj",
+                "object": "chat.completion",
+                "created": 1728717799,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a function with a simple conditional structure\nint simple_conditional(int a, int b) {\n    if (a > 0) {\n        return b + 1;\n    } else {\n        return b - 1;\n    }\n}\n\nint main() {\n    int x = 5; // Initialize variable x\n    int y = 10; // Initialize variable y\n    int result = 0; // Declare result variable\n\n    // Call the function with a constant condition\n    result = simple_conditional(x, y);\n\n    // Use the result in a conditional branch\n    if (result > 10) {\n        printf(\"Result is greater than 10\\n\");\n    } else {\n        printf(\"Result is 10 or less\\n\");\n    }\n\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a call to a function like `simple_conditional`, which contains a simple conditional structure. The function is called with constant or predictable arguments, leading to a predictable outcome. The result of this function call is then used in a conditional branch in the `main` function. The program should have a structure that allows for potential simplification or removal of branches based on constant propagation or predictable control flow. The `main` function must return a value or perform an action that is influenced by the optimization for further comparison.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2345,
+                    "completion_tokens": 299,
+                    "total_tokens": 2644,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a function with a simple conditional structure\nint simple_conditional(int a, int b) {\n    if (a > 0) {\n        return b + 1;\n    } else {\n        return b - 1;\n    }\n}\n\nint main() {\n    int x = 5; // Initialize variable x\n    int y = 10; // Initialize variable y\n    int result = 0; // Declare result variable\n\n    // Call the function with a constant condition\n    result = simple_conditional(x, y);\n\n    // Use the result in a conditional branch\n    if (result > 10) {\n        printf(\"Result is greater than 10\\n\");\n    } else {\n        printf(\"Result is 10 or less\\n\");\n    }\n\n    return 0;\n}\n"
+            ],
+            "g_time": 3.752458333969116
+        }
+    }
+}
+{
+    "opt": "LoopSimplifyCFGPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQl9weTo9pCxd2d0KDfOx1Tx8Pdq",
+                "object": "chat.completion",
+                "created": 1728717803,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    int x = ANY_VALUE; // declare and initialize x\n    int y = ANY_VALUE; // declare and initialize y\n\n    // A loop with a condition that can be constant-folded\n    while (x < CONSTANT_CONDITION) {\n        // Perform some operations\n        x = x OPERATOR y; // x is updated with an operation involving y\n    }\n\n    return x; // return the result\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a loop with a condition that can be constant-folded. The loop should have a single latch, meaning it should be structured in a way that LLVM can easily identify and process it. The loop condition should be based on a constant expression that allows LLVM to simplify or eliminate the loop. The loop body should perform operations that update the loop variable, and the result of the loop should be returned by the `main` function. The `OPERATOR` could be any arithmetic or logical operator that modifies the loop variable. The `CONSTANT_CONDITION` should be a constant value that allows the loop condition to be evaluated at compile time. The `ANY_VALUE` should be a value that aligns with the type of the loop variable.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1633,
+                    "completion_tokens": 270,
+                    "total_tokens": 1903,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    int x = ANY_VALUE; // declare and initialize x\n    int y = ANY_VALUE; // declare and initialize y\n\n    // A loop with a condition that can be constant-folded\n    while (x < CONSTANT_CONDITION) {\n        // Perform some operations\n        x = x OPERATOR y; // x is updated with an operation involving y\n    }\n\n    return x; // return the result\n}\n"
+            ],
+            "g_time": 3.6148762702941895
+        }
+    }
+}
+{
+    "opt": "SimpleLoopUnswitchLegacyPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlDYqYNgLz6NeAp7yaCTgUErOKA",
+                "object": "chat.completion",
+                "created": 1728717807,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a function with a loop containing a condition\nvoid loop_with_condition(int n, int flag) {\n    for (int i = 0; i < n; ++i) {\n        if (flag) { // This condition should be invariant within the loop\n            // Perform some operations\n            printf(\"Flag is true, iteration %d\\n\", i);\n        } else {\n            // Perform some other operations\n            printf(\"Flag is false, iteration %d\\n\", i);\n        }\n    }\n}\n\nint main() {\n    int n = 10; // Loop iteration count\n    int flag = 1; // Invariant condition for the loop\n\n    // Call the function with the loop\n    loop_with_condition(n, flag);\n\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where within a function, there exists a loop with a condition that is invariant (i.e., does not change) throughout the loop's execution. The loop should be in a simplified form, meaning it has a preheader and dedicated exits. The condition should be trivial, allowing the loop to be unswitched based on this invariant condition. The `main` function calls this loop function, passing the invariant condition as an argument. The loop should not be marked for optimization size (`optsize`), and the loop nest should not be cold according to profile information. The program should be structured such that the loop can be safely unswitched without causing branch divergence issues.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2306,
+                    "completion_tokens": 316,
+                    "total_tokens": 2622,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a function with a loop containing a condition\nvoid loop_with_condition(int n, int flag) {\n    for (int i = 0; i < n; ++i) {\n        if (flag) { // This condition should be invariant within the loop\n            // Perform some operations\n            printf(\"Flag is true, iteration %d\\n\", i);\n        } else {\n            // Perform some other operations\n            printf(\"Flag is false, iteration %d\\n\", i);\n        }\n    }\n}\n\nint main() {\n    int n = 10; // Loop iteration count\n    int flag = 1; // Invariant condition for the loop\n\n    // Call the function with the loop\n    loop_with_condition(n, flag);\n\n    return 0;\n}\n"
+            ],
+            "g_time": 4.356495141983032
+        }
+    }
+}
+{
+    "opt": "ReassociatePassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlHYndcP2xI80n73iaYSULxLPga",
+                "object": "chat.completion",
+                "created": 1728717811,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// declare variables\nint a = ANY_VALUE; // declare a\nint b = ANY_VALUE; // declare b\nint c = ANY_VALUE; // declare c\n\nint main() {\n  int result = 0; // declare the result\n\n  // perform a series of arithmetic operations\n  result = (a + b) + c; // associative operation\n  result = (result * a) * b; // another associative operation\n  result = (result - c) - a; // yet another associative operation\n\n  // use the result in a way that it is not trivially dead\n  printf(\"%d\\n\", result);\n\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there are arithmetic operations that can be reassociated. The operations should be structured in a way that allows for reassociation, such as repeated addition, multiplication, or subtraction. The result of these operations should be used in a way that prevents the compiler from considering them trivially dead, such as by printing the result. The variables `a`, `b`, and `c` should be initialized with any integer values. The operations should be simple enough to allow the compiler to identify opportunities for reassociation, which can lead to the removal of dead instructions and trigger the optimization.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1829,
+                    "completion_tokens": 282,
+                    "total_tokens": 2111,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// declare variables\nint a = ANY_VALUE; // declare a\nint b = ANY_VALUE; // declare b\nint c = ANY_VALUE; // declare c\n\nint main() {\n  int result = 0; // declare the result\n\n  // perform a series of arithmetic operations\n  result = (a + b) + c; // associative operation\n  result = (result * a) * b; // another associative operation\n  result = (result - c) - a; // yet another associative operation\n\n  // use the result in a way that it is not trivially dead\n  printf(\"%d\\n\", result);\n\n  return 0;\n}\n"
+            ],
+            "g_time": 3.9997060298919678
+        }
+    }
+}
+{
+    "opt": "InstSimplifyPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlLV6ZMnsDFabl34BM6CmUM4Wbv",
+                "object": "chat.completion",
+                "created": 1728717815,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// declare variables\nint a = 10; // declare and initialize a\nint b = 0;  // declare and initialize b\n\nint main() {\n  int result = 0; // declare the result\n\n  // perform a division operation that will result in a constant expression\n  if (b != 0) {\n    result = a / b; // this division will be simplified\n  } else {\n    result = 0; // handle division by zero\n  }\n\n  // perform a redundant operation that can be simplified\n  int redundant = a * 1; // multiplication by 1 is redundant\n\n  // use the redundant variable in a way that it can be optimized out\n  printf(\"Result: %d, Redundant: %d\\n\", result, redundant);\n\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there are operations that can be simplified or identified as trivially dead. The program includes a division operation that can be simplified if the divisor is a constant non-zero value. Additionally, it includes a redundant operation, such as multiplication by 1, which can be optimized out. The `main` function uses these operations in a way that allows the optimizer to identify and simplify them, potentially marking them as dead instructions. The program should ensure that the operations are used in a context that allows the optimizer to perform simplifications and dead code elimination.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2008,
+                    "completion_tokens": 308,
+                    "total_tokens": 2316,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// declare variables\nint a = 10; // declare and initialize a\nint b = 0;  // declare and initialize b\n\nint main() {\n  int result = 0; // declare the result\n\n  // perform a division operation that will result in a constant expression\n  if (b != 0) {\n    result = a / b; // this division will be simplified\n  } else {\n    result = 0; // handle division by zero\n  }\n\n  // perform a redundant operation that can be simplified\n  int redundant = a * 1; // multiplication by 1 is redundant\n\n  // use the redundant variable in a way that it can be optimized out\n  printf(\"Result: %d, Redundant: %d\\n\", result, redundant);\n\n  return 0;\n}\n"
+            ],
+            "g_time": 4.0664379596710205
+        }
+    }
+}
+{
+    "opt": "InstCombinePHIPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlPjekV1IR8rUS2v8EaMS5FUUWs",
+                "object": "chat.completion",
+                "created": 1728717819,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a function that returns a non-zero integer value\nint getNonZeroValue() {\n    return 1; // or any other non-zero constant\n}\n\nint main() {\n    int a = getNonZeroValue(); // Call the function to get a non-zero value\n    int b = 0; // Initialize a variable to zero\n\n    // Use a loop or conditional structure to create a PHI node scenario\n    for (int i = 0; i < 10; ++i) {\n        if (i % 2 == 0) {\n            b = a; // Assign the non-zero value to b\n        } else {\n            b = 0; // Assign zero to b\n        }\n\n        // Compare the variable with zero\n        if (b == 0) {\n            printf(\"b is zero\\n\");\n        } else {\n            printf(\"b is non-zero\\n\");\n        }\n    }\n\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a loop or conditional structure that creates a PHI node. The PHI node is used in a comparison with zero, and one of its incoming values is a known non-zero constant. The function `getNonZeroValue` returns a non-zero integer, which is used in the loop to create a situation where the PHI node can be optimized by replacing the non-zero incoming value with any non-zero constant. The `main` function must include logic that results in a PHI node being compared with zero, allowing the optimization to replace the incoming non-zero value.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2145,
+                    "completion_tokens": 343,
+                    "total_tokens": 2488,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a function that returns a non-zero integer value\nint getNonZeroValue() {\n    return 1; // or any other non-zero constant\n}\n\nint main() {\n    int a = getNonZeroValue(); // Call the function to get a non-zero value\n    int b = 0; // Initialize a variable to zero\n\n    // Use a loop or conditional structure to create a PHI node scenario\n    for (int i = 0; i < 10; ++i) {\n        if (i % 2 == 0) {\n            b = a; // Assign the non-zero value to b\n        } else {\n            b = 0; // Assign zero to b\n        }\n\n        // Compare the variable with zero\n        if (b == 0) {\n            printf(\"b is zero\\n\");\n        } else {\n            printf(\"b is non-zero\\n\");\n        }\n    }\n\n    return 0;\n}\n"
+            ],
+            "g_time": 4.406359672546387
+        }
+    }
+}
+{
+    "opt": "LowerSwitchPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlTcboqPdYsxvy0bbBRJZMWfEjJ",
+                "object": "chat.completion",
+                "created": 1728717823,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// declare variables\nint x = ANY_VALUE; // declare x\n\nint main() {\n  int main_result = 0; // declare the result\n\n  // switch statement with multiple cases\n  switch (x) {\n    case VALUE_1:\n      // code block for case VALUE_1\n      main_result = VALUE_1_RESULT;\n      break;\n    case VALUE_2:\n      // code block for case VALUE_2\n      main_result = VALUE_2_RESULT;\n      break;\n    // additional cases as needed\n    default:\n      // default case code block\n      main_result = DEFAULT_RESULT;\n      break;\n  }\n\n  return main_result; // return the result\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a `switch` statement that operates on a variable `x`. The `switch` statement should have multiple `case` labels, each with its own code block, and a `default` case. The `main` function should return a value that is determined by the execution of one of these cases. The `ANY_VALUE` should be an integer value that matches the type of the `switch` expression. The `VALUE_1`, `VALUE_2`, etc., are constant integer values that represent the different cases in the `switch` statement. The `VALUE_1_RESULT`, `VALUE_2_RESULT`, and `DEFAULT_RESULT` are the results associated with each case and the default case, respectively. The presence of the `switch` statement with multiple cases is crucial for triggering the optimization.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1546,
+                    "completion_tokens": 335,
+                    "total_tokens": 1881,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_6b68a8204b"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// declare variables\nint x = ANY_VALUE; // declare x\n\nint main() {\n  int main_result = 0; // declare the result\n\n  // switch statement with multiple cases\n  switch (x) {\n    case VALUE_1:\n      // code block for case VALUE_1\n      main_result = VALUE_1_RESULT;\n      break;\n    case VALUE_2:\n      // code block for case VALUE_2\n      main_result = VALUE_2_RESULT;\n      break;\n    // additional cases as needed\n    default:\n      // default case code block\n      main_result = DEFAULT_RESULT;\n      break;\n  }\n\n  return main_result; // return the result\n}\n"
+            ],
+            "g_time": 3.9904356002807617
+        }
+    }
+}
+{
+    "opt": "InstCombineXorPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlXU89H9voH6ahsDBy3bZiRUqn9",
+                "object": "chat.completion",
+                "created": 1728717827,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// declare variables\nANY_TYPE a = ANY_VALUE; // declare a\nANY_TYPE b = ANY_VALUE; // declare b\nANY_TYPE c = ANY_VALUE; // declare c\nANY_TYPE d = ANY_VALUE; // declare d\n\nint main() {\n  // perform bitwise OR operations\n  ANY_TYPE or1 = a | b;\n  ANY_TYPE or2 = a | c;\n\n  // perform XOR operation\n  ANY_TYPE result = or1 ^ or2;\n\n  // print the result\n  printf(\"%d\\n\", result);\n\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there are two bitwise OR operations involving a common operand `a` and distinct operands `b` and `c`. The results of these OR operations are then used as operands in a bitwise XOR operation. The `ANY_TYPE` could be any integer type such as `int`, `unsigned int`, `long`, etc., and the `ANY_VALUE` should be aligned with the type. The program should ensure that the XOR operation involves expressions of the form `(a | b) ^ (a | c)`, which can be transformed by the optimization. The `main` function should return 0 after printing the result of the XOR operation.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1602,
+                    "completion_tokens": 278,
+                    "total_tokens": 1880,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// declare variables\nANY_TYPE a = ANY_VALUE; // declare a\nANY_TYPE b = ANY_VALUE; // declare b\nANY_TYPE c = ANY_VALUE; // declare c\nANY_TYPE d = ANY_VALUE; // declare d\n\nint main() {\n  // perform bitwise OR operations\n  ANY_TYPE or1 = a | b;\n  ANY_TYPE or2 = a | c;\n\n  // perform XOR operation\n  ANY_TYPE result = or1 ^ or2;\n\n  // print the result\n  printf(\"%d\\n\", result);\n\n  return 0;\n}\n"
+            ],
+            "g_time": 3.8890106678009033
+        }
+    }
+}
+{
+    "opt": "InstCombineSelectPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlbXJ2FOeHv3WjWFBXkGPYfS2mg",
+                "object": "chat.completion",
+                "created": 1728717831,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    float a = ANY_FLOAT_VALUE; // declare a float variable\n    float b = ANY_FLOAT_VALUE; // declare another float variable\n    float c = ANY_FLOAT_VALUE; // declare a third float variable\n    float result;\n\n    // Use a floating-point comparison to create a condition\n    if (a > b) {\n        result = a;\n    } else {\n        result = b;\n    }\n\n    // Use a select-like pattern with a floating-point comparison\n    result = (a > b) ? a : b;\n\n    // Print the result to ensure the code is not optimized away\n    printf(\"Result: %f\\n\", result);\n\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a conditional operation that uses a floating-point comparison to select between two values. The comparison should involve two variables, and the result of this comparison is used in a ternary conditional operator (`?:`) to select between the two values. The condition should be based on a floating-point comparison, such as `a > b`, and the selected values should be the same as those involved in the comparison. The `main` function should return or use the result of this selection to ensure it is not optimized away. The use of floating-point comparisons and the ternary operator is crucial to trigger the specific optimization.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2593,
+                    "completion_tokens": 298,
+                    "total_tokens": 2891,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    float a = ANY_FLOAT_VALUE; // declare a float variable\n    float b = ANY_FLOAT_VALUE; // declare another float variable\n    float c = ANY_FLOAT_VALUE; // declare a third float variable\n    float result;\n\n    // Use a floating-point comparison to create a condition\n    if (a > b) {\n        result = a;\n    } else {\n        result = b;\n    }\n\n    // Use a select-like pattern with a floating-point comparison\n    result = (a > b) ? a : b;\n\n    // Print the result to ensure the code is not optimized away\n    printf(\"Result: %f\\n\", result);\n\n    return 0;\n}\n"
+            ],
+            "g_time": 3.9401638507843018
+        }
+    }
+}
+{
+    "opt": "ADCEPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlf81YnYq3yC9ut4y6fqwRFvsr2",
+                "object": "chat.completion",
+                "created": 1728717835,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// declare variables\nint a = 10; // declare and initialize a\nint b = 20; // declare and initialize b\nint c = 0;  // declare and initialize c\n\n// define a function that performs some operations\nint compute(int x, int y) {\n  int result = x + y; // perform an operation\n  return result; // return the result\n}\n\nint main() {\n  int main_result = 0; // declare the result\n\n  // perform some operations\n  c = a + b; // perform an operation that is not used later\n\n  // invoke the compute function\n  main_result = compute(a, b);\n\n  // print the result\n  printf(\"Result: %d\\n\", main_result);\n\n  return 0; // return the result\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a computation or operation whose result is not used or does not affect the program's output. The `compute` function performs a simple operation and returns a result that is used in the `main` function. However, the operation `c = a + b;` is dead code because the result stored in `c` is never used. This unused computation is a candidate for elimination by the optimization pass. The `main` function must return a value or print a result that is not influenced by the dead code to trigger the optimization.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1716,
+                    "completion_tokens": 307,
+                    "total_tokens": 2023,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// declare variables\nint a = 10; // declare and initialize a\nint b = 20; // declare and initialize b\nint c = 0;  // declare and initialize c\n\n// define a function that performs some operations\nint compute(int x, int y) {\n  int result = x + y; // perform an operation\n  return result; // return the result\n}\n\nint main() {\n  int main_result = 0; // declare the result\n\n  // perform some operations\n  c = a + b; // perform an operation that is not used later\n\n  // invoke the compute function\n  main_result = compute(a, b);\n\n  // print the result\n  printf(\"Result: %d\\n\", main_result);\n\n  return 0; // return the result\n}\n"
+            ],
+            "g_time": 3.9086058139801025
+        }
+    }
+}
+{
+    "opt": "MemCpyOptPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlj4U3Z59XP4gn01zkY6opHETqI",
+                "object": "chat.completion",
+                "created": 1728717839,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <string.h> // Include the necessary header for memcpy\n\n// Define a struct or a large data type\ntypedef struct {\n  char data[ANY_SIZE]; // Define a data array of any size\n} LargeData;\n\nint main() {\n  LargeData source, destination; // Declare source and destination variables\n\n  // Initialize the source with some values\n  memset(&source, ANY_VALUE, sizeof(LargeData));\n\n  // Use memcpy to copy data from source to destination\n  memcpy(&destination, &source, sizeof(LargeData));\n\n  // Perform some operations on the destination to ensure it is used\n  if (destination.data[0] == ANY_VALUE) {\n    // Do something\n  }\n\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a `memcpy` operation that copies data from a source to a destination. The source is initialized using `memset` or similar means to ensure it contains a known pattern. The destination is then used in a conditional or other operation to ensure the copied data is utilized. The `LargeData` type can be any struct or array that is large enough to trigger optimizations related to memory copying. The `ANY_SIZE` should be a size that is significant enough to be optimized, and `ANY_VALUE` should be a value that can be used to initialize the data.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2449,
+                    "completion_tokens": 295,
+                    "total_tokens": 2744,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <string.h> // Include the necessary header for memcpy\n\n// Define a struct or a large data type\ntypedef struct {\n  char data[ANY_SIZE]; // Define a data array of any size\n} LargeData;\n\nint main() {\n  LargeData source, destination; // Declare source and destination variables\n\n  // Initialize the source with some values\n  memset(&source, ANY_VALUE, sizeof(LargeData));\n\n  // Use memcpy to copy data from source to destination\n  memcpy(&destination, &source, sizeof(LargeData));\n\n  // Perform some operations on the destination to ensure it is used\n  if (destination.data[0] == ANY_VALUE) {\n    // Do something\n  }\n\n  return 0;\n}\n"
+            ],
+            "g_time": 3.6289167404174805
+        }
+    }
+}
+{
+    "opt": "SinkingPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlmVKefl0ZsL1YmUc3oBwtevKie",
+                "object": "chat.completion",
+                "created": 1728717842,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    int a = 10; // Declare and initialize a variable\n    int b = 20; // Declare and initialize another variable\n    int c; // Declare a variable to store the result\n\n    if (a > 5) { // Conditional block\n        c = a + b; // Perform an operation\n    } else {\n        c = a - b; // Perform a different operation\n    }\n\n    printf(\"%d\\n\", c); // Use the result\n\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where:\n\n1. **Conditional Blocks**: The program contains conditional blocks (e.g., `if-else` statements) that determine which operations are executed based on certain conditions.\n\n2. **Variable Declarations and Initializations**: Variables are declared and initialized before the conditional blocks. These variables are used within the conditional blocks.\n\n3. **Operations Inside Conditional Blocks**: Operations (e.g., arithmetic operations) are performed inside the conditional blocks, and the results are stored in variables.\n\n4. **Use of Results**: The results of the operations are used after the conditional blocks, such as being printed or returned.\n\n5. **Control Flow**: The control flow of the program allows for the possibility of moving instructions (e.g., the arithmetic operations) to a common successor block if the conditions are met.\n\nThe program should be structured in such a way that the operations inside the conditional blocks can be safely moved to a common successor block, which is a characteristic that can trigger the optimization process described.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2069,
+                    "completion_tokens": 334,
+                    "total_tokens": 2403,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_6b68a8204b"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    int a = 10; // Declare and initialize a variable\n    int b = 20; // Declare and initialize another variable\n    int c; // Declare a variable to store the result\n\n    if (a > 5) { // Conditional block\n        c = a + b; // Perform an operation\n    } else {\n        c = a - b; // Perform a different operation\n    }\n\n    printf(\"%d\\n\", c); // Use the result\n\n    return 0;\n}\n"
+            ],
+            "g_time": 3.845776319503784
+        }
+    }
+}
+{
+    "opt": "InstCombineFMulPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlrrP7x8dkkd8kqt4nblUDMVarj",
+                "object": "chat.completion",
+                "created": 1728717847,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <math.h>\n\nint main() {\n  // Declare and initialize floating-point variables\n  float a = ANY_FLOAT_VALUE; // e.g., 1.5f\n  float b = ANY_FLOAT_VALUE; // e.g., 2.5f\n  float c = ANY_FLOAT_VALUE; // e.g., 3.5f\n\n  // Perform a floating-point multiplication operation\n  // that involves a constant and a variable\n  float result = (a / b) * c; // This pattern can trigger the optimization\n\n  // Return the result as an integer\n  return (int)result;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a floating-point multiplication operation involving a division and a constant. The multiplication should be structured such that it can be reassociated or simplified by the optimization pass. The variables `a`, `b`, and `c` should be initialized with any floating-point values. The result of the multiplication is returned as an integer to ensure the computation is used. The use of floating-point arithmetic and specific operations like division and multiplication are key to triggering the optimization.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 3900,
+                    "completion_tokens": 246,
+                    "total_tokens": 4146,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_6b68a8204b"
+            },
+            "code": [
+                "#include <math.h>\n\nint main() {\n  // Declare and initialize floating-point variables\n  float a = ANY_FLOAT_VALUE; // e.g., 1.5f\n  float b = ANY_FLOAT_VALUE; // e.g., 2.5f\n  float c = ANY_FLOAT_VALUE; // e.g., 3.5f\n\n  // Perform a floating-point multiplication operation\n  // that involves a constant and a variable\n  float result = (a / b) * c; // This pattern can trigger the optimization\n\n  // Return the result as an integer\n  return (int)result;\n}\n"
+            ],
+            "g_time": 3.4886813163757324
+        }
+    }
+}
+{
+    "opt": "InstCombineAtomicRMWPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQluqhVHjwbWaJD8LLNfSsibuK3R",
+                "object": "chat.completion",
+                "created": 1728717850,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdatomic.h>\n\nint main() {\n  // Declare an atomic integer variable\n  atomic_int atomic_var = ANY_INTEGER_VALUE;\n\n  // Perform an atomic read-modify-write operation\n  // The operation should be idempotent and not 'Or'\n  atomic_fetch_add(&atomic_var, 0); // Example of an idempotent operation\n\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists an atomic read-modify-write operation on an atomic integer variable. The operation should be idempotent, meaning it does not change the value of the variable when applied multiple times with the same operand. The operation should not be `Or`, as the optimization pass will transform it to `Or` with zero. The `atomic_fetch_add` with zero is an example of such an idempotent operation. The `ANY_INTEGER_VALUE` should be an integer value that initializes the atomic variable. The `main` function must return an integer value, typically zero, to indicate successful execution.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1684,
+                    "completion_tokens": 225,
+                    "total_tokens": 1909,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_6b68a8204b"
+            },
+            "code": [
+                "#include <stdatomic.h>\n\nint main() {\n  // Declare an atomic integer variable\n  atomic_int atomic_var = ANY_INTEGER_VALUE;\n\n  // Perform an atomic read-modify-write operation\n  // The operation should be idempotent and not 'Or'\n  atomic_fetch_add(&atomic_var, 0); // Example of an idempotent operation\n\n  return 0;\n}\n"
+            ],
+            "g_time": 2.9916789531707764
+        }
+    }
+}
+{
+    "opt": "InstCombineAShrPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQlxGON4c6PxmQohCTx3Od19gsRw",
+                "object": "chat.completion",
+                "created": 1728717853,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdint.h>\n\nint main() {\n    // Declare variables\n    int32_t x = ANY_VALUE; // Initialize x with any 32-bit integer value\n    int32_t y = ANY_VALUE; // Initialize y with any 32-bit integer value\n    int32_t result;\n\n    // Perform a left shift with no signed wrap and then an arithmetic right shift\n    result = (x << C1) >> C2; // C1 and C2 are constants such that C1 > C2\n\n    // Return the result\n    return result;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a sequence of operations involving a left shift followed by an arithmetic right shift on a signed integer type. The left shift operation should be marked as having no signed wrap (`<<nsw`), and the constants `C1` and `C2` should be chosen such that `C1 > C2`. This ensures that the transformation `(X <<nsw C1) >>s C2 --> X <<nsw (C1 - C2)` can be applied, triggering the optimization. The `main` function must return a value related to this transformation for further comparison.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2403,
+                    "completion_tokens": 262,
+                    "total_tokens": 2665,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_6b68a8204b"
+            },
+            "code": [
+                "#include <stdint.h>\n\nint main() {\n    // Declare variables\n    int32_t x = ANY_VALUE; // Initialize x with any 32-bit integer value\n    int32_t y = ANY_VALUE; // Initialize y with any 32-bit integer value\n    int32_t result;\n\n    // Perform a left shift with no signed wrap and then an arithmetic right shift\n    result = (x << C1) >> C2; // C1 and C2 are constants such that C1 > C2\n\n    // Return the result\n    return result;\n}\n"
+            ],
+            "g_time": 3.489832878112793
+        }
+    }
+}
+{
+    "opt": "InstCombineMulPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQm0Ryeu0NDvMvp1vTPtk4d33Cht",
+                "object": "chat.completion",
+                "created": 1728717856,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    // Declare variables\n    int x = ANY_VALUE; // Initialize x with any integer value\n    int result;\n\n    // Perform a multiplication operation that can be transformed\n    // into a left shift operation by the compiler\n    result = x * (1 << ANY_CONSTANT); // ANY_CONSTANT is a positive integer\n\n    // Use the result in some way\n    printf(\"%d\\n\", result);\n\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a multiplication operation involving a variable and a power of two, which can be optimized into a left shift operation. The multiplication should be of the form `x * (1 << ANY_CONSTANT)`, where `ANY_CONSTANT` is a positive integer. The result of this operation is used in the program, such as being printed or returned. The program should not contain any complex operations that prevent the transformation into a shift operation. The `main` function must return an integer value, typically `0`, to indicate successful execution.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1844,
+                    "completion_tokens": 230,
+                    "total_tokens": 2074,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    // Declare variables\n    int x = ANY_VALUE; // Initialize x with any integer value\n    int result;\n\n    // Perform a multiplication operation that can be transformed\n    // into a left shift operation by the compiler\n    result = x * (1 << ANY_CONSTANT); // ANY_CONSTANT is a positive integer\n\n    // Use the result in some way\n    printf(\"%d\\n\", result);\n\n    return 0;\n}\n"
+            ],
+            "g_time": 2.917099952697754
+        }
+    }
+}
+{
+    "opt": "ConstantMergePassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQm3gaFzPpsC70mMuvjpyzxLRC5F",
+                "object": "chat.completion",
+                "created": 1728717859,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define global variables with initial values\nstatic const int global_const1 = 42;\nstatic const int global_const2 = 42; // Same value as global_const1\n\n// Define a function that uses these global constants\nint use_globals() {\n    return global_const1 + global_const2;\n}\n\nint main() {\n    int result = use_globals();\n    printf(\"Result: %d\\n\", result);\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where there are multiple global variables with the same constant value. These global variables should have local linkage (e.g., `static` in C) and should not be marked as \"used\" or have any special metadata that would prevent merging. The `main` function calls a function that uses these global constants, and the result is printed or used in some way. The presence of identical global constants with local linkage allows the optimization to merge them, triggering the relevant optimization pass.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 2356,
+                    "completion_tokens": 208,
+                    "total_tokens": 2564,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define global variables with initial values\nstatic const int global_const1 = 42;\nstatic const int global_const2 = 42; // Same value as global_const1\n\n// Define a function that uses these global constants\nint use_globals() {\n    return global_const1 + global_const2;\n}\n\nint main() {\n    int result = use_globals();\n    printf(\"Result: %d\\n\", result);\n    return 0;\n}\n"
+            ],
+            "g_time": 2.938042163848877
+        }
+    }
+}
+{
+    "opt": "InternalizePassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQm6xBKlwPjxZwpnjtd5R3946iSm",
+                "object": "chat.completion",
+                "created": 1728717862,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n// Declare global variables with initializers\nint global_var1 = 42;\nfloat global_var2 = 3.14;\n\n// Define functions\nvoid external_func1() {\n  // Function body\n}\n\nvoid external_func2() {\n  // Function body\n}\n\n// Define the main function\nint main() {\n  // Use global variables and functions\n  global_var1 += 10;\n  external_func1();\n  external_func2();\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where the program contains global variables with initializers and functions that are not explicitly marked as internal (e.g., using `static`). The global variables and functions are used within the `main` function. The program should not include any specific attributes or pragmas that would prevent the global variables or functions from being internalized. The `main` function must utilize these global variables and functions to ensure they are part of the module's global scope. The presence of these elements allows the optimization to potentially change their linkage to internal, thus triggering the optimization pass.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1838,
+                    "completion_tokens": 223,
+                    "total_tokens": 2061,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "// Declare global variables with initializers\nint global_var1 = 42;\nfloat global_var2 = 3.14;\n\n// Define functions\nvoid external_func1() {\n  // Function body\n}\n\nvoid external_func2() {\n  // Function body\n}\n\n// Define the main function\nint main() {\n  // Use global variables and functions\n  global_var1 += 10;\n  external_func1();\n  external_func2();\n  return 0;\n}\n"
+            ],
+            "g_time": 3.098700761795044
+        }
+    }
+}
+{
+    "opt": "LowerInvokePassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQm9I3IJdjcpjnkoIguWVvLqtzO3",
+                "object": "chat.completion",
+                "created": 1728717865,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <setjmp.h>\n#include <stdio.h>\n\n// Declare a global jmp_buf variable\njmp_buf buf;\n\n// Define a function that uses setjmp and longjmp\nvoid test_function() {\n  if (setjmp(buf)) {\n    // Code to execute after longjmp\n    printf(\"After longjmp\\n\");\n  } else {\n    // Code to execute before longjmp\n    printf(\"Before longjmp\\n\");\n    longjmp(buf, 1); // Trigger a jump back to the setjmp point\n  }\n}\n\nint main() {\n  // Call the function that uses setjmp and longjmp\n  test_function();\n  return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a call to `test_function`, which utilizes `setjmp` and `longjmp` for non-local control flow. The `setjmp` function sets a jump point, and `longjmp` is used to jump back to this point, effectively simulating an exception handling mechanism. The presence of `setjmp` and `longjmp` in the code can lead to the generation of `invoke` instructions in the LLVM intermediate representation, which are then candidates for transformation by the optimization pass. The `main` function must return a value related to this optimization for further comparison.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1651,
+                    "completion_tokens": 279,
+                    "total_tokens": 1930,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <setjmp.h>\n#include <stdio.h>\n\n// Declare a global jmp_buf variable\njmp_buf buf;\n\n// Define a function that uses setjmp and longjmp\nvoid test_function() {\n  if (setjmp(buf)) {\n    // Code to execute after longjmp\n    printf(\"After longjmp\\n\");\n  } else {\n    // Code to execute before longjmp\n    printf(\"Before longjmp\\n\");\n    longjmp(buf, 1); // Trigger a jump back to the setjmp point\n  }\n}\n\nint main() {\n  // Call the function that uses setjmp and longjmp\n  test_function();\n  return 0;\n}\n"
+            ],
+            "g_time": 3.6941211223602295
+        }
+    }
+}
+{
+    "opt": "LowerAtomicPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQmDk5OcDerKPu7PJeWQ9GqKMZC4",
+                "object": "chat.completion",
+                "created": 1728717869,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdatomic.h>\n\n// declare variables\natomic_int atomic_var = ANY_VALUE; // declare an atomic integer variable\nint non_atomic_var = ANY_VALUE; // declare a non-atomic integer variable\n\nint main() {\n  // perform an atomic read-modify-write operation\n  int old_value = atomic_fetch_add(&atomic_var, non_atomic_var);\n\n  // use the result of the atomic operation\n  int result = old_value OPERATOR ANY_VALUE;\n\n  return result; // return the result\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists an atomic read-modify-write operation on an atomic variable, such as `atomic_fetch_add`, `atomic_fetch_sub`, `atomic_fetch_or`, etc. The result of this atomic operation is stored in a variable (`old_value`) and is subsequently used in a computation (`result`). The `main` function returns a value that is derived from this computation. The atomic variable (`atomic_var`) and the non-atomic variable (`non_atomic_var`) are initialized with any integer values. The `OPERATOR` could be any arithmetic or logical operator that is compatible with integer types.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1702,
+                    "completion_tokens": 247,
+                    "total_tokens": 1949,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdatomic.h>\n\n// declare variables\natomic_int atomic_var = ANY_VALUE; // declare an atomic integer variable\nint non_atomic_var = ANY_VALUE; // declare a non-atomic integer variable\n\nint main() {\n  // perform an atomic read-modify-write operation\n  int old_value = atomic_fetch_add(&atomic_var, non_atomic_var);\n\n  // use the result of the atomic operation\n  int result = old_value OPERATOR ANY_VALUE;\n\n  return result; // return the result\n}\n"
+            ],
+            "g_time": 3.3694489002227783
+        }
+    }
+}
+{
+    "opt": "DeadArgumentEliminationPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQmH8Hsulhy7p8j97V2atKtBWeOw",
+                "object": "chat.completion",
+                "created": 1728717873,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n// declare variables\nint x = ANY_VALUE; // declare x\nANY_TYPE y = ANY_VALUE; // declare y\nANY_TYPE z = ANY_VALUE; // declare z\n\n// define a function with non-local linkage (not static) that has unused parameters\nint func_with_unused_params(int a, int b, int c) {\n  int result = 0; // declare the result\n  RANDOM_CODE; // Do something here, but don't use the parameters a, b, or c\n  result = x OPERATOR ANY_VALUE; // result is related to x\n  return result;\n}\n\nint main() {\n  int main_result = 0; // declare the result\n  // invoke the func_with_unused_params\n  // you can pass the arguments with any value, any type\n  main_result = func_with_unused_params(x, y, z);\n  return main_result; // return the result\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a call to `func_with_unused_params`, and the result of this call is being used. The function `func_with_unused_params` is defined with non-local linkage (not `static`) and has parameters that are not used within the function body. The `main` function must return a value related to this optimization for further comparison.\n\nThe `ANY_TYPE` could be `char, unsigned, int, float, double, ptr, struct, array, etc.`. The `ANY_VALUE` should be aligned with the type. The `OPERATOR` could be `+,-,*,/,%,<<,>>,|,&,^,&&,||,==,!=,>,<,>=,<=,~,!,+=,-=,*=,/=,%=,<<=,>>=,&=,^=,|=,++,--,=,?:,->,.,[],()`. The `RANDOM_CODE` could be any code that does not use the parameters `a`, `b`, or `c`. Each declared variable should be initialized, such as `int a[] = {1, 2, 0, 5};`.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1822,
+                    "completion_tokens": 449,
+                    "total_tokens": 2271,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "// declare variables\nint x = ANY_VALUE; // declare x\nANY_TYPE y = ANY_VALUE; // declare y\nANY_TYPE z = ANY_VALUE; // declare z\n\n// define a function with non-local linkage (not static) that has unused parameters\nint func_with_unused_params(int a, int b, int c) {\n  int result = 0; // declare the result\n  RANDOM_CODE; // Do something here, but don't use the parameters a, b, or c\n  result = x OPERATOR ANY_VALUE; // result is related to x\n  return result;\n}\n\nint main() {\n  int main_result = 0; // declare the result\n  // invoke the func_with_unused_params\n  // you can pass the arguments with any value, any type\n  main_result = func_with_unused_params(x, y, z);\n  return main_result; // return the result\n}\n"
+            ],
+            "g_time": 5.477610111236572
+        }
+    }
+}
+{
+    "opt": "LoopDeletionPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQmMGH3ASaCgUeLT2dOtpFJN2GaR",
+                "object": "chat.completion",
+                "created": 1728717878,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n  // Declare and initialize variables\n  int x = ANY_VALUE; // x is used in the loop condition\n  int y = ANY_VALUE; // y is used in the loop body\n\n  // A loop that is provably never executed\n  while (x < 0) { // The condition is always false\n    // Loop body\n    y = y OPERATOR ANY_VALUE; // Perform some operation on y\n  }\n\n  // Return a value related to the loop\n  return y;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a loop with a condition that can be statically determined to be false, ensuring the loop body is never executed. The loop condition should involve a variable (e.g., `x`) that is initialized in such a way that the condition is always false (e.g., `x < 0` when `x` is initialized to a non-negative value). The loop body can contain any operations that do not affect the loop's execution, and the result of these operations should be returned or used in a way that is related to the loop. The `OPERATOR` could be any valid C operator, and `ANY_VALUE` should be a constant or expression that maintains the loop's non-executability.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1761,
+                    "completion_tokens": 284,
+                    "total_tokens": 2045,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n  // Declare and initialize variables\n  int x = ANY_VALUE; // x is used in the loop condition\n  int y = ANY_VALUE; // y is used in the loop body\n\n  // A loop that is provably never executed\n  while (x < 0) { // The condition is always false\n    // Loop body\n    y = y OPERATOR ANY_VALUE; // Perform some operation on y\n  }\n\n  // Return a value related to the loop\n  return y;\n}\n"
+            ],
+            "g_time": 4.088688611984253
+        }
+    }
+}
+{
+    "opt": "InlinerPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQmQE97xVmRv7BWEEcbTWpDNPZLL",
+                "object": "chat.completion",
+                "created": 1728717882,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\n// Define a function that is small and simple enough to be inlined\nstatic inline int simple_function(int a, int b) {\n    return a + b; // Simple operation that can be easily inlined\n}\n\nint main() {\n    int x = 5; // Declare and initialize variable x\n    int y = 10; // Declare and initialize variable y\n    int result; // Declare a variable to store the result\n\n    // Call the simple_function with x and y as arguments\n    result = simple_function(x, y);\n\n    // Return the result of the function call\n    return result;\n}\n```\n\n### Characteristics of the C Program:\n\n1. **Function Definition**: The program defines a function `simple_function` that performs a simple operation (e.g., addition) on its arguments. This function is marked as `inline` to suggest that it is a candidate for inlining.\n\n2. **Static Function**: The function is declared as `static`, which limits its linkage to the file scope, making it a candidate for inlining within the same translation unit.\n\n3. **Function Call in `main`**: The `main` function calls `simple_function` with some arguments. The result of this call is used in the `main` function, which is a typical scenario where inlining can be beneficial.\n\n4. **Simple Operations**: The operations within `simple_function` are simple and small, making it a good candidate for inlining due to the low overhead of the function body.\n\n5. **No Complex Control Flow**: The function does not contain complex control flow structures (e.g., loops, conditionals) that might complicate inlining.\n\n6. **Return Value**: The `main` function returns the result of the inlined function call, ensuring that the result is used and relevant to the program's output.\n\nThis pattern characterizes scenarios where a small, simple function is defined and called within the `main` function, making it a candidate for inlining by the compiler. The function's simplicity and the use of the `inline` keyword suggest to the compiler that inlining could be beneficial for performance.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 3916,
+                    "completion_tokens": 455,
+                    "total_tokens": 4371,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\n// Define a function that is small and simple enough to be inlined\nstatic inline int simple_function(int a, int b) {\n    return a + b; // Simple operation that can be easily inlined\n}\n\nint main() {\n    int x = 5; // Declare and initialize variable x\n    int y = 10; // Declare and initialize variable y\n    int result; // Declare a variable to store the result\n\n    // Call the simple_function with x and y as arguments\n    result = simple_function(x, y);\n\n    // Return the result of the function call\n    return result;\n}\n"
+            ],
+            "g_time": 5.624887228012085
+        }
+    }
+}
+{
+    "opt": "LCSSAPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQmWz9Wl9RR6W94jINAfI6Bvni1Y",
+                "object": "chat.completion",
+                "created": 1728717888,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <stdio.h>\n\nint main() {\n    int result = 0; // declare a result variable\n\n    // declare and initialize variables\n    int a = 10;\n    int b = 20;\n    int c = 30;\n\n    // create a loop with a condition that involves the variables\n    for (int i = 0; i < 10; i++) {\n        if (a < b) {\n            result += a; // perform some operation\n        } else {\n            result += b;\n        }\n    }\n\n    // create a condition that uses the result of the loop\n    if (result > c) {\n        printf(\"Result is greater than c\\n\");\n    } else {\n        printf(\"Result is less than or equal to c\\n\");\n    }\n\n    return 0; // return the result\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a loop that iterates over a set of conditions involving variables. The loop should have a condition that uses these variables, and the result of the loop is used in a subsequent condition outside the loop. The loop should have exit blocks that are dominated by the loop header, and the result of the loop should be used in a condition that is outside the loop. The `main` function must return a value related to this optimization for further comparison. The variables can be of any type, and the operations within the loop can be any valid C operations that do not involve complex data structures or external function calls.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 3701,
+                    "completion_tokens": 322,
+                    "total_tokens": 4023,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <stdio.h>\n\nint main() {\n    int result = 0; // declare a result variable\n\n    // declare and initialize variables\n    int a = 10;\n    int b = 20;\n    int c = 30;\n\n    // create a loop with a condition that involves the variables\n    for (int i = 0; i < 10; i++) {\n        if (a < b) {\n            result += a; // perform some operation\n        } else {\n            result += b;\n        }\n    }\n\n    // create a condition that uses the result of the loop\n    if (result > c) {\n        printf(\"Result is greater than c\\n\");\n    } else {\n        printf(\"Result is less than or equal to c\\n\");\n    }\n\n    return 0; // return the result\n}\n"
+            ],
+            "g_time": 4.186380863189697
+        }
+    }
+}
+{
+    "opt": "InstCombineCallPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHQmaTTAaO4sK58h6cZwms2Ai8grJ",
+                "object": "chat.completion",
+                "created": 1728717892,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n#include <string.h>\n\n// Define a global constant variable\nconst char global_const[] = \"Hello, World!\";\n\n// Define a function that uses memmove\nvoid example_function(char *dest) {\n    // Use memmove with the global constant as the source\n    memmove(dest, global_const, sizeof(global_const));\n}\n\nint main() {\n    char buffer[50]; // Declare a buffer\n    example_function(buffer); // Call the function with the buffer\n    return 0;\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a call to `example_function`, which uses `memmove` with a global constant as the source. The global constant is defined as `const`, ensuring it is immutable. The `example_function` uses `memmove` to copy data from the global constant to a destination buffer. The `main` function initializes a buffer and passes it to `example_function`. The use of `memmove` with a constant global variable as the source is crucial, as it allows the optimization to replace `memmove` with `memcpy`, triggering the optimization pass.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 10652,
+                    "completion_tokens": 240,
+                    "total_tokens": 10892,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 1024
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "#include <string.h>\n\n// Define a global constant variable\nconst char global_const[] = \"Hello, World!\";\n\n// Define a function that uses memmove\nvoid example_function(char *dest) {\n    // Use memmove with the global constant as the source\n    memmove(dest, global_const, sizeof(global_const));\n}\n\nint main() {\n    char buffer[50]; // Declare a buffer\n    example_function(buffer); // Call the function with the buffer\n    return 0;\n}\n"
+            ],
+            "g_time": 3.9065375328063965
+        }
+    }
+}
+{
+    "opt": "GlobalOptPassoneshot_0",
+    "response": {
+        "0": {
+            "raw": {
+                "id": "chatcmpl-AHS8LOWVcOxRkVYBJKoMs7eWZR3VW",
+                "object": "chat.completion",
+                "created": 1728723085,
+                "model": "gpt-4o-2024-08-06",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": "The C program should contain the following pattern:\n\n```c\n// Define a function with a specific calling convention\n// The function should not be a varargs function and should not have its address taken\nstatic int my_function(int a, int b) {\n  // Perform some operations\n  return a + b;\n}\n\nint main() {\n  int result = 0; // Declare a result variable\n  // Call the function directly\n  result = my_function(5, 10);\n  return result; // Return the result\n}\n```\n\nThis pattern characterizes scenarios where within the `main` function, there exists a direct call to `my_function`, which is defined with a specific calling convention. The function `my_function` should be static (which translates to internal linkage in LLVM IR), should not be a varargs function, and should not have its address taken. The function should perform some operations and return a result. The `main` function should call this function directly and return the result of the call. The function should be eligible for calling convention changes, such as promoting to a fast calling convention, which is the focus of the optimization.",
+                            "refusal": null
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 3105,
+                    "completion_tokens": 234,
+                    "total_tokens": 3339,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0
+                    }
+                },
+                "system_fingerprint": "fp_e5e4913e83"
+            },
+            "code": [
+                "// Define a function with a specific calling convention\n// The function should not be a varargs function and should not have its address taken\nstatic int my_function(int a, int b) {\n  // Perform some operations\n  return a + b;\n}\n\nint main() {\n  int result = 0; // Declare a result variable\n  // Call the function directly\n  result = my_function(5, 10);\n  return result; // Return the result\n}\n"
+            ],
+            "g_time": 8.325946807861328
+        }
+    }
+}

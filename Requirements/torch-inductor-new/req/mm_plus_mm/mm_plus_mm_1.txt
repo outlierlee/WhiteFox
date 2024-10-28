@@ -1,0 +1,9 @@
+The model should contain the following pattern:
+
+```python
+t1 = torch.mm(matrix1, matrix2)  # Perform matrix multiplication between two matrices
+t2 = torch.mm(matrix3, matrix4)  # Perform matrix multiplication between another pair of matrices
+t3 = t1 + t2  # Add the results of the two matrix multiplications
+```
+
+This pattern characterizes scenarios where two separate matrix multiplications are performed, and their results are subsequently added together. This is a common pattern in models that involve linear transformations or fully connected layers, where the outputs of different linear operations are combined.

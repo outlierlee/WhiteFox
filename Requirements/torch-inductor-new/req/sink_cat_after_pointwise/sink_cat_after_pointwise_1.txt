@@ -1,0 +1,7 @@
+The model should contain the following pattern:
+```python
+t1 = torch.cat([tensor1, tensor2, ...], dim=...)  # Concatenate multiple tensors along a specified dimension.
+t2 = t1.view(...)  # Optionally, apply a view operation on the concatenated tensor.
+t3 = torch.relu(t2)  # Apply a pointwise unary operation like ReLU on the result.
+```
+This pattern characterizes scenarios where the `torch.cat` function is invoked first to concatenate multiple tensors. Optionally, a view operation may be applied to the result of the concatenation. Finally, a pointwise unary operation such as `torch.relu` or `torch.tanh` is applied to the result. The optimization is triggered when the pointwise unary operation has only one user, which is the concatenation node or the view node.

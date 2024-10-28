@@ -1,0 +1,24 @@
+The model should contain the following pattern:
+
+1. **AllGather or ReduceScatter Operations**: The model includes `AllGather` or `ReduceScatter` operations where the input and output shapes are the same. This indicates that the operation is redundant and can be replaced with its input.
+
+   ```python
+   # Example pattern in TensorFlow
+   output = tf.raw_ops.AllGather(input=input_tensor, ...)
+   # or
+   output = tf.raw_ops.ReduceScatter(input=input_tensor, ...)
+   ```
+
+2. **Cross-Replica AllReduce Operations**: The model includes `AllReduce` operations that are cross-replica and meet specific conditions:
+   - The operation is applied to an array-shaped tensor (not a tuple).
+   - The operation is either replicated at the operand level or has a replica group size of 1, making it redundant.
+   - The reduction function applied in `AllReduce` is one of the following: `Add`, `Minimum`, `Maximum`, `Or`, or `And`.
+
+   ```python
+   # Example pattern in TensorFlow
+   output = tf.raw_ops.AllReduce(input=input_tensor, ...)
+   ```
+
+3. **Reduction Function Characteristics**: If the reduction function is `Add`, the model should allow for the creation of a multiplier based on the replica group size, which is then used to replace the `AllReduce` operation with a multiplication operation.
+
+These patterns in the model will trigger the `AllReduceSimplifier` optimization pass, leading to potential simplifications by removing redundant operations or replacing them with more efficient computations.

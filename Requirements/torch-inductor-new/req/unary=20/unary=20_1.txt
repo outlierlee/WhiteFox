@@ -1,0 +1,8 @@
+The model should contain the following pattern:
+
+```python
+t1 = conv_transpose(input_tensor) # Apply a transposed pointwise convolution to the input tensor
+t2 = torch.sigmoid(t1) # Apply the sigmoid activation function to the output of the transposed convolution
+```
+
+This pattern characterizes scenarios where the output of a transposed pointwise convolution is directly passed through a sigmoid activation function. The use of `mkldnn._convolution_transpose_pointwise.default` indicates that the model is leveraging MKL-DNN (oneDNN) optimizations for the transposed convolution operation, which is typically used in tasks such as upsampling or generating higher-dimensional feature maps from lower-dimensional ones.

@@ -1,0 +1,23 @@
+The C program should contain the following pattern:
+
+```c
+#include <string.h>
+
+int main() {
+  // Declare and initialize a constant array
+  const int const_array[] = {1, 2, 3, 4, 5};
+
+  // Declare a local array with automatic storage duration
+  int local_array[5];
+
+  // Use memcpy to copy data from the constant array to the local array
+  memcpy(local_array, const_array, sizeof(const_array));
+
+  // Use the local array in some way to ensure it is not optimized away
+  int result = local_array[0] + local_array[1];
+
+  return result;
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there is a local array `local_array` that is initialized using `memcpy` from a constant array `const_array`. The `memcpy` operation ensures that the local array is only modified by copying from a memory location whose alignment is equal to or exceeds that of the allocation. The local array is then used in some computation to ensure it is not optimized away. The `main` function returns a value derived from the local array to ensure the result is used. This setup allows the optimization to replace the local array with the constant array, triggering the optimization pass.

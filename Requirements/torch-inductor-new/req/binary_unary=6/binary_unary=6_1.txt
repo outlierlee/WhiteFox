@@ -1,0 +1,7 @@
+The model should contain the following pattern:
+```python
+t1 = linear(input_tensor) # Apply a pointwise linear transformation to the input tensor
+t2 = t1 - other # Subtract a specified value (or tensor) from the output of the linear transformation
+t3 = torch.relu(t2) # Apply the ReLU activation function to the result of the subtraction
+```
+This pattern characterizes scenarios where the output of a pointwise linear transformation is first subtracted by a specified value or tensor, and then the result is passed through a ReLU activation function. The use of `mkldnn._linear_pointwise.default` suggests that the linear transformation is optimized for performance using MKL-DNN (oneDNN) backends.

@@ -1,0 +1,20 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdint.h>
+
+int main() {
+    // Declare variables
+    int32_t x = ANY_VALUE; // Initialize x with any 32-bit integer value
+    int32_t y = ANY_VALUE; // Initialize y with any 32-bit integer value
+    int32_t result;
+
+    // Perform a left shift with no signed wrap and then an arithmetic right shift
+    result = (x << C1) >> C2; // C1 and C2 are constants such that C1 > C2
+
+    // Return the result
+    return result;
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there exists a sequence of operations involving a left shift followed by an arithmetic right shift on a signed integer type. The left shift operation should be marked as having no signed wrap (`<<nsw`), and the constants `C1` and `C2` should be chosen such that `C1 > C2`. This ensures that the transformation `(X <<nsw C1) >>s C2 --> X <<nsw (C1 - C2)` can be applied, triggering the optimization. The `main` function must return a value related to this transformation for further comparison.

@@ -1,0 +1,20 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+int main() {
+    int sum = 0; // Initialize a variable to accumulate the sum
+    int i; // Loop counter
+
+    // A simple loop with a linear induction variable
+    for (i = 0; i < 10; i++) {
+        sum += i; // Accumulate the sum of the loop counter
+    }
+
+    printf("Sum: %d\n", sum); // Print the result
+    return 0;
+}
+```
+
+This pattern characterizes scenarios where there is a loop with a simple induction variable, such as `i` in the `for` loop. The loop counter is incremented by a constant value (in this case, `1`), and the loop performs a straightforward operation, like accumulating a sum. The loop should be structured in a way that allows for potential strength reduction optimizations, such as replacing expensive operations with cheaper ones. The loop should be in a form that can be analyzed and transformed by the optimization pass, such as having a clear loop header and exit condition. The `main` function must return a value related to this optimization for further comparison.

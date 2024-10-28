@@ -1,0 +1,27 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// declare variables
+ANY_TYPE a = ANY_VALUE; // declare a
+ANY_TYPE b = ANY_VALUE; // declare b
+ANY_TYPE c = ANY_VALUE; // declare c
+ANY_TYPE d = ANY_VALUE; // declare d
+
+int main() {
+  // perform bitwise OR operations
+  ANY_TYPE or1 = a | b;
+  ANY_TYPE or2 = a | c;
+
+  // perform XOR operation
+  ANY_TYPE result = or1 ^ or2;
+
+  // print the result
+  printf("%d\n", result);
+
+  return 0;
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there are two bitwise OR operations involving a common operand `a` and distinct operands `b` and `c`. The results of these OR operations are then used as operands in a bitwise XOR operation. The `ANY_TYPE` could be any integer type such as `int`, `unsigned int`, `long`, etc., and the `ANY_VALUE` should be aligned with the type. The program should ensure that the XOR operation involves expressions of the form `(a | b) ^ (a | c)`, which can be transformed by the optimization. The `main` function should return 0 after printing the result of the XOR operation.

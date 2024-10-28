@@ -1,0 +1,9 @@
+The model should contain the following pattern:
+
+```python
+x = ...  # Some tensor
+bcast = tf.broadcast_to(x, ...)
+ag = tf.raw_ops.AllGather(input=bcast, ...)
+```
+
+The pattern describes that there is an `AllGather` operation in the model, which takes a `Broadcast` operation as its operand. The `Broadcast` operation expands the dimensions of a tensor `x` to a larger shape. The `AllGather` operation then gathers data along a specified dimension of the broadcasted tensor. The optimization is triggered when the `AllGather` operation is performed on a tensor that has been broadcasted, and there are uniform dimensions in the result of the `AllGather` that can be optimized by reordering the operations.

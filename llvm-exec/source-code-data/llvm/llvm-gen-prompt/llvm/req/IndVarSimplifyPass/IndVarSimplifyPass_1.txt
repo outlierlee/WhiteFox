@@ -1,0 +1,20 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+int main() {
+    int sum = 0; // Initialize a sum variable
+    int limit = ANY_POSITIVE_INTEGER; // Define a loop limit
+
+    // A simple loop with an induction variable
+    for (int i = 0; i < limit; i++) {
+        sum += i; // Accumulate the sum of the induction variable
+    }
+
+    printf("Sum: %d\n", sum); // Print the result
+    return 0;
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there exists a loop with a simple induction variable, such as `i` in the `for` loop. The loop iterates over a range defined by a positive integer limit, and the induction variable is used in a straightforward arithmetic operation, such as accumulating a sum. The loop should be structured in a way that allows for potential simplification and extension of the induction variable, which is a key aspect of the optimization process. The `main` function must return a value or print a result related to the loop's computation for further analysis.

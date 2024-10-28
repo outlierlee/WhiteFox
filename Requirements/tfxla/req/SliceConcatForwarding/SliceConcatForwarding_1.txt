@@ -1,0 +1,7 @@
+The characteristics of the TensorFlow model that trigger the optimization pass `SliceConcatForwarding` in TensorFlow XLA are as follows:
+
+The model should contain the following pattern:
+```
+slice = tf.slice(tf.concat([A1, A2, ..., An, ...], axis=concat_dim), [n], [1])
+```
+The pattern describes that there is a `slice` operation on a concatenated tensor along a specific axis `concat_dim`, where the slice operation extracts a single element from one of the concatenated tensors. This triggers the optimization pass `SliceConcatForwarding` to return true and forward the specific element.

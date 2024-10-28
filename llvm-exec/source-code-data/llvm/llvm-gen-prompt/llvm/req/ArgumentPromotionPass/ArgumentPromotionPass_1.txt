@@ -1,0 +1,29 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// Define a function with pointer arguments
+static void pointer_func(int *a, float *b, double *c) {
+  // Perform operations using the pointer arguments
+  if (a) *a += 1;
+  if (b) *b *= 2.0f;
+  if (c) *c -= 3.0;
+}
+
+int main() {
+  int x = 10;
+  float y = 5.5f;
+  double z = 20.0;
+
+  // Call the function with direct pointer arguments
+  pointer_func(&x, &y, &z);
+
+  // Print the results
+  printf("x: %d, y: %.2f, z: %.2f\n", x, y, z);
+
+  return 0;
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there exists a call to `pointer_func`, which is a static function with pointer arguments. The function should not be variadic, should not have the `naked` attribute, and should have local linkage. The function should be called directly, without any indirect calls or address-taking. The `pointer_func` should perform operations on the pointer arguments, and the `main` function should use the results of these operations. The program should not contain any `musttail` calls or functions with `inalloca` attributes. The `main` function must return a value related to this optimization for further comparison.

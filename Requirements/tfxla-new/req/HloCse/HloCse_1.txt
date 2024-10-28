@@ -1,0 +1,34 @@
+The `HloCSE` optimization pass in TensorFlow XLA is triggered by models that contain redundant or identical operations that can be combined or eliminated to optimize the computation graph. The characteristics of such a model include:
+
+1. **Identical Constants**: The model contains multiple constant operations with the same value and type. These constants can be combined into a single constant operation.
+
+   ```python
+   c1 = tf.constant(42)
+   c2 = tf.constant(42)
+   ```
+
+2. **Identical Iota Instructions**: The model contains multiple iota operations (which generate sequences of numbers) that are identical in terms of their shape and dimensions. These can be combined into a single iota operation.
+
+   ```python
+   iota1 = tf.range(10)
+   iota2 = tf.range(10)
+   ```
+
+3. **Equivalent Operations**: The model contains operations that are equivalent, meaning they perform the same computation with the same operands. These operations can be replaced with a single representative operation.
+
+   ```python
+   a = tf.add(x, y)
+   b = tf.add(x, y)
+   ```
+
+4. **Commutative Operations**: For binary commutative operations (like addition or multiplication), the model may have operations with operands in different orders that are otherwise identical. These can be considered equivalent and combined.
+
+   ```python
+   c = tf.add(y, x)  # Equivalent to `a` and `b` above
+   ```
+
+5. **No Side Effects**: The operations involved must not have side effects, as side effects prevent operations from being combined or eliminated.
+
+6. **Layout Sensitivity**: If the optimization is layout-sensitive, the operations must have the same layout to be considered equivalent.
+
+By having these characteristics, the model can trigger the `HloCSE` optimization pass, leading to a more efficient computation graph by reducing redundancy.

@@ -1,0 +1,17 @@
+The model should contain the following pattern:
+
+1. **Async Collective Operations**: The model must include asynchronous collective operations, specifically those that start with `AsyncStart` and end with `AsyncDone`. These operations can be of types like `AllReduce`, `AllGather`, or `CollectivePermute`.
+
+2. **Matching Async Start and Done**: For each `AsyncStart` operation, there should be a corresponding `AsyncDone` operation. The `AsyncDone` operation must directly follow the `AsyncStart` operation without any intervening non-NOP (no-operation) instructions that could overlap with the async operation.
+
+3. **No Overlapping Operations**: The sequence of operations between the `AsyncStart` and `AsyncDone` should not include any operations that can be scheduled to overlap with the async collective. This means that the async operation is effectively not providing any performance benefit through parallel execution.
+
+4. **Example Pattern**:
+   ```python
+   # Pseudo-code to illustrate the pattern
+   async_start_op = tf.raw_ops.AsyncCollectiveStart(...)
+   # No significant operations here that can overlap with the async operation
+   async_done_op = tf.raw_ops.AsyncCollectiveDone(async_start_op)
+   ```
+
+This pattern ensures that the async operations are not effectively utilized for parallel execution, thus triggering the optimization pass to convert them into synchronous operations.

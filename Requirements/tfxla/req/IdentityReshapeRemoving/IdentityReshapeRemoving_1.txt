@@ -1,0 +1,5 @@
+The model should contain the following pattern:
+```
+t = tf.reshape(input_tensor, input_tensor.shape)
+```
+The pattern describes a single `reshape` operation where the input tensor is reshaped to its own shape.

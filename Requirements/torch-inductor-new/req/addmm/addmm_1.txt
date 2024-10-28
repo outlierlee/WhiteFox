@@ -1,0 +1,8 @@
+The model should contain the following pattern:
+
+```python
+t1 = torch.mm(matrix1, matrix2)  # Perform matrix multiplication between two matrices
+t2 = t1 + inp  # Add the result of the matrix multiplication to another input tensor
+```
+
+This pattern characterizes scenarios where the result of a matrix multiplication operation (`torch.mm`) is added to another input tensor (`inp`). The addition is element-wise, and the dimensions of `t1` and `inp` must be compatible for broadcasting or direct addition.

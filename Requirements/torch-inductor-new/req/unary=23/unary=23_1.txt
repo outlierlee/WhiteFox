@@ -1,0 +1,8 @@
+The model should contain the following pattern:
+
+```python
+t1 = conv_transpose(input_tensor)  # Apply a transposed convolution (also known as deconvolution) with pointwise operations to the input tensor
+t2 = torch.tanh(t1)  # Apply the hyperbolic tangent function to the output of the transposed convolution
+```
+
+This pattern characterizes scenarios where the output of a transposed convolution is directly passed through a hyperbolic tangent activation function. The use of `mkldnn._convolution_transpose_pointwise.default` suggests that the model is optimized for performance on Intel architectures using MKL-DNN (oneDNN) for efficient computation.

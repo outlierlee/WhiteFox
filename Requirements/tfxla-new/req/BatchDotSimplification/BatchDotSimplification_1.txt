@@ -1,0 +1,23 @@
+The model should contain the following pattern:
+
+1. **Batch Dot Product**: The model includes a batch dot product operation where the batch dimensions of the left-hand side (LHS) and right-hand side (RHS) tensors are equal and strictly ascending. This means that the batch dimensions are in the order `[0, 1, 2, ...]`.
+
+2. **Degenerate Batch Dimensions**: At least one of the batch dimensions in the LHS tensor has a size of 1. These are referred to as degenerate dimensions.
+
+3. **Single Contracting Dimension**: The dot operation has exactly one contracting dimension. This means that the dot product is performed over a single dimension from each of the LHS and RHS tensors.
+
+The pattern can be illustrated with the following pseudo-code:
+
+```python
+# Assume lhs and rhs are tensors with shapes that include batch dimensions.
+# The batch dimensions are equal and strictly ascending, e.g., [0, 1, 2, ...].
+# At least one of these batch dimensions has size 1 in the lhs tensor.
+
+lhs = tf.constant(..., shape=[1, ..., M, K])  # Example shape with a degenerate batch dimension
+rhs = tf.constant(..., shape=[1, ..., K, N])  # Corresponding shape for rhs
+
+# Perform a batch dot product with a single contracting dimension.
+result = tf.linalg.matmul(lhs, rhs, ...)
+```
+
+This pattern ensures that the optimization pass `BatchDotSimplification` is triggered, as it identifies opportunities to simplify the batch dot operation by removing degenerate batch dimensions.

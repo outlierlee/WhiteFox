@@ -1,0 +1,30 @@
+The `SliceSinker` optimization pass in TensorFlow XLA is triggered by a specific pattern in the model involving elementwise operations on slices. The characteristics of the model that can trigger this optimization are as follows:
+
+1. **Elementwise Operations on Slices**: The model contains elementwise operations (e.g., addition, multiplication) where all operands are slices of larger tensors. These slices must be taken from the same indices of tensors with compatible shapes.
+
+2. **Same Slice Configuration**: The slices used as operands in these elementwise operations must have the same slice configuration, meaning they start, end, and stride at the same indices.
+
+3. **Similar Operations**: There are multiple elementwise operations with the same opcode and result element type, and their operands are slices from the same indices of the same larger tensors.
+
+4. **Sufficient Accumulated Size**: The accumulated size of the group of elementwise operations on slices must be at least as large as the size of the larger tensor from which the slices are taken. This ensures that the transformation does not increase the computational cost.
+
+Here is a code pattern that illustrates these characteristics:
+
+```python
+import tensorflow as tf
+
+# Assume input_tensor is a larger tensor
+input_tensor = tf.constant([...], dtype=tf.float32)
+
+# Slices from the same indices
+slice1 = tf.slice(input_tensor, [start1], [size1])
+slice2 = tf.slice(input_tensor, [start2], [size2])
+
+# Elementwise operations on slices
+result1 = tf.add(slice1, slice1)
+result2 = tf.add(slice2, slice2)
+
+# The slices and operations meet the conditions for SliceSinker
+```
+
+In this pattern, `slice1` and `slice2` are slices taken from `input_tensor` with the same start, size, and stride configurations. The elementwise operations `result1` and `result2` are similar, and the accumulated size of these operations is not less than the size of `input_tensor`.

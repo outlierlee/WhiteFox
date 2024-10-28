@@ -1,0 +1,32 @@
+The `AllReduceCombiner` optimization pass in TensorFlow XLA is triggered by models that exhibit the following characteristics:
+
+1. **Multiple AllReduce Operations**: The model contains multiple `AllReduce` operations. These operations must have exactly one operand each.
+
+2. **Same Reduction Operation**: All the `AllReduce` operations to be combined must use the same reduction operation. This means they should apply the same function (e.g., sum, product) to their operands.
+
+3. **Array Shapes**: The shapes of the outputs of these `AllReduce` operations must be arrays.
+
+4. **Thresholds**: The number of `AllReduce` operations and/or the total size of their operands must meet certain thresholds defined by `combine_threshold_in_bytes` and `combine_threshold_count`. These thresholds are set to ensure that combining the operations is beneficial in terms of performance.
+
+5. **No Layout Constraints**: The model should not contain any `AllReduce` operations with constrained layouts, as these would prevent the combination from occurring.
+
+6. **Domain Consistency**: The `AllReduce` operations should be consistent in terms of their domain, which is determined by the `HloDomainMap`.
+
+Here is a simplified example pattern that could trigger the `AllReduceCombiner`:
+
+```python
+import tensorflow as tf
+
+# Assume `x` and `y` are tensors that are part of a distributed computation.
+x = ...
+y = ...
+
+# AllReduce operations with the same reduction operation (e.g., sum).
+allreduce1 = tf.raw_ops.AllReduce(input=x, reduction='sum')
+allreduce2 = tf.raw_ops.AllReduce(input=y, reduction='sum')
+
+# The model should have enough AllReduce operations to meet the threshold.
+# The operations should not have layout constraints and should be consistent in domain.
+```
+
+In this example, if the number of `AllReduce` operations and their combined size meet the specified thresholds, and they share the same reduction operation without layout constraints, the `AllReduceCombiner` pass will be triggered.

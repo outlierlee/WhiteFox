@@ -1,0 +1,36 @@
+The `HloDCE` optimization pass in TensorFlow XLA is triggered by the presence of dead code in the model. Specifically, the model should contain computations or instructions that are not used in any meaningful way, allowing them to be safely removed without affecting the model's output. Here are the characteristics of a model that would trigger this optimization:
+
+1. **Dead Instructions**: The model contains instructions that are not used in any computation that contributes to the final output. These instructions do not have side effects or, if they do, the side effects are not relevant to the final output.
+
+2. **Removable While Loops**: The model includes `while` loops that are considered removable. This means the loop does not have side effects, or if it does, the side effects are not significant enough to prevent removal. Additionally, the loop does not contain any collective operations that constrain layout unless the `remove_cross_partition_collective_ops` flag is set to allow their removal.
+
+3. **Unused Computations**: The model has computations that are not called by any live instructions. These computations are not part of the execution path that leads to the final output and can be safely removed.
+
+4. **Nested Dead Computations**: The model may have nested computations that are dead because they are only called by other dead computations. These nested computations are also candidates for removal.
+
+5. **No Live Callers**: The model includes computations that have no live callers, meaning they are not referenced by any remaining instructions in the module.
+
+To illustrate, consider a model with the following pattern:
+
+```python
+def model(input_tensor):
+    # Some initial computations
+    x = tf.add(input_tensor, 1)
+    
+    # Dead computation
+    y = tf.multiply(x, 0)  # This result is never used
+    
+    # Removable while loop
+    def cond(x):
+        return tf.less(x, 10)
+    
+    def body(x):
+        return tf.add(x, 1)
+    
+    z = tf.while_loop(cond, body, [x])  # This loop does not affect the final output
+    
+    # Final output
+    return tf.add(x, 2)
+```
+
+In this example, the multiplication by zero (`y`) and the while loop (`z`) are dead code because they do not contribute to the final output. The `HloDCE` pass would identify and remove these parts of the model, optimizing it by eliminating unnecessary computations.

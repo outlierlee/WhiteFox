@@ -1,0 +1,4 @@
+
+Creating a `DotDecomposer` non-canonical model would require a non-trivial design of tensor shapes and axes, which makes it hard (or almost impossible) to construct such a model using the public TensorFlow APIs. Converting tensor operations to a canonical form and understanding why certain operations can not be converted can require a good depth in TensorFlow's internals, which is beyond the scope of publicly available TensorFlow APIs. 
+
+So, providing such a model in its most simplest form using publicly available TensorFlow API would result in a clear violation of the problem statement as the model is not based on only public TensorFlow APIs. This complexity should give one a full understanding of how XLA transforms from a canonical form into non-canonical, and the provided guidelines can be more valuable for the actual task, not in creating a bad example which is not applicable for the task description.

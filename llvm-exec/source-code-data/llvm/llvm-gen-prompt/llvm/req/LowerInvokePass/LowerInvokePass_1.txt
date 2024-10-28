@@ -1,0 +1,29 @@
+The C program should contain the following pattern:
+
+```c
+#include <setjmp.h>
+#include <stdio.h>
+
+// Declare a global jmp_buf variable
+jmp_buf buf;
+
+// Define a function that uses setjmp and longjmp
+void test_function() {
+  if (setjmp(buf)) {
+    // Code to execute after longjmp
+    printf("After longjmp\n");
+  } else {
+    // Code to execute before longjmp
+    printf("Before longjmp\n");
+    longjmp(buf, 1); // Trigger a jump back to the setjmp point
+  }
+}
+
+int main() {
+  // Call the function that uses setjmp and longjmp
+  test_function();
+  return 0;
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there exists a call to `test_function`, which utilizes `setjmp` and `longjmp` for non-local control flow. The `setjmp` function sets a jump point, and `longjmp` is used to jump back to this point, effectively simulating an exception handling mechanism. The presence of `setjmp` and `longjmp` in the code can lead to the generation of `invoke` instructions in the LLVM intermediate representation, which are then candidates for transformation by the optimization pass. The `main` function must return a value related to this optimization for further comparison.

@@ -1,0 +1,14 @@
+The model should contain the following pattern:
+
+```python
+# Assume `input_tensor` is a scalar tensor (rank 0).
+t1 = tf.broadcast_to(input_tensor, [1])
+t2 = tf.reshape(t1, [])
+```
+
+The pattern describes that there are two operations in the model. The first operation is a `broadcast` that takes a scalar tensor `input_tensor` and broadcasts it to a tensor of shape `[1]`. The second operation is a `reshape` that takes the output of the `broadcast` and reshapes it back to a scalar (rank 0). 
+
+Key characteristics:
+- The `input_tensor` must be a scalar (rank 0).
+- The `broadcast` operation increases the rank of `input_tensor` to 1.
+- The `reshape` operation reduces the rank of the broadcasted tensor back to 0.

@@ -1,0 +1,9 @@
+The model should contain the following pattern:
+
+```python
+t1 = conv(input_tensor)  # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 - other  # Subtract a specified value (other) from the output of the convolution
+t3 = torch.relu(t2)  # Apply the ReLU activation function to the result of the subtraction
+```
+
+This pattern characterizes scenarios where the output of a pointwise convolution is first subtracted by a specified value (`other`), and then the ReLU activation function is applied to the result of this subtraction. This sequence of operations is typical in models that involve convolutional layers followed by element-wise operations and activation functions.

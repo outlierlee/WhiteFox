@@ -1,0 +1,23 @@
+The model should contain the following pattern:
+
+1. **Zero-Sized Tensors**: The model includes operations that produce tensors with zero elements. These tensors have a shape where at least one dimension is zero, resulting in an overall size of zero elements.
+
+2. **Static Shapes**: The zero-sized tensors must have static shapes, meaning their dimensions are known and fixed at compile time.
+
+3. **No Side Effects**: The operations producing zero-sized tensors should not have side effects. This means they do not alter the state outside their scope or depend on external state changes.
+
+4. **Removable Instructions**: The operations generating zero-sized tensors should be safely removable. This implies that removing these operations does not affect the correctness of the computation or the final output of the model.
+
+5. **Non-Constant Operations**: The operations should not be constants. The optimization targets non-constant operations that result in zero-sized tensors.
+
+Example pattern in TensorFlow:
+
+```python
+import tensorflow as tf
+
+# Create a zero-sized tensor by slicing or reshaping
+input_tensor = tf.constant([], shape=(0, 10))  # Zero-sized tensor
+output_tensor = tf.reduce_sum(input_tensor)    # Operation on zero-sized tensor
+```
+
+In this example, `input_tensor` is a zero-sized tensor with a static shape, and `output_tensor` is an operation that can be safely removed or replaced with a constant, triggering the `ZeroSizedHloElimination` optimization pass.

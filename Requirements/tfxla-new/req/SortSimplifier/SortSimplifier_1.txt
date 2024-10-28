@@ -1,0 +1,22 @@
+The `SortSimplifier` optimization pass in TensorFlow XLA is triggered by a specific pattern in the model involving a `sort` operation. The characteristics of the model that can trigger this optimization are as follows:
+
+1. **Sort Operation with Tuple Output**: The model contains a `sort` operation that outputs a tuple. This means the `sort` operation is sorting multiple arrays simultaneously, and its output is a tuple containing sorted arrays.
+
+2. **Unused Tuple Elements**: Not all elements of the tuple output from the `sort` operation are used in subsequent computations. The optimization pass looks for tuple elements that are not accessed by any `get-tuple-element` operations or any other operations in the computation graph.
+
+3. **Comparator Usage**: The comparator function used in the `sort` operation may also influence the optimization. The pass checks which parameters of the comparator are actually used, and it considers these when determining which tuple elements are necessary.
+
+4. **Non-root Sort Instruction**: The `sort` operation should not be the root instruction of the computation. If it is the root, the optimization cannot proceed because it cannot analyze the users of the root instruction.
+
+Here is a simplified example pattern that could trigger the `SortSimplifier` optimization:
+
+```python
+# Assume `input_tensor` is a multi-dimensional tensor.
+sorted_tuple = tf.sort(input_tensor, axis=-1, direction='ASCENDING', output_type=tf.float32)
+
+# Only use some elements of the sorted tuple.
+used_element = tf.gather(sorted_tuple, indices=[0], axis=0)
+# Other elements of the tuple are not used in the computation.
+```
+
+In this example, the `sort` operation produces a tuple, but only some elements of the tuple are used in subsequent operations. The `SortSimplifier` optimization pass would identify the unused elements and potentially remove them, simplifying the computation graph.

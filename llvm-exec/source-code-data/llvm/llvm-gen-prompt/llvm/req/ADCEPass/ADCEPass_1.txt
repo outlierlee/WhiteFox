@@ -1,0 +1,33 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// declare variables
+int a = 10; // declare and initialize a
+int b = 20; // declare and initialize b
+int c = 0;  // declare and initialize c
+
+// define a function that performs some operations
+int compute(int x, int y) {
+  int result = x + y; // perform an operation
+  return result; // return the result
+}
+
+int main() {
+  int main_result = 0; // declare the result
+
+  // perform some operations
+  c = a + b; // perform an operation that is not used later
+
+  // invoke the compute function
+  main_result = compute(a, b);
+
+  // print the result
+  printf("Result: %d\n", main_result);
+
+  return 0; // return the result
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there exists a computation or operation whose result is not used or does not affect the program's output. The `compute` function performs a simple operation and returns a result that is used in the `main` function. However, the operation `c = a + b;` is dead code because the result stored in `c` is never used. This unused computation is a candidate for elimination by the optimization pass. The `main` function must return a value or print a result that is not influenced by the dead code to trigger the optimization.

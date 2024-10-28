@@ -1,0 +1,26 @@
+The C program should contain the following pattern:
+
+```c
+#include <stdio.h>
+
+// declare variables
+int x = ANY_VALUE; // declare x
+ANY_TYPE y = ANY_VALUE; // declare y
+ANY_TYPE z = ANY_VALUE; // declare z
+
+int main() {
+  int main_result = 0; // declare the result
+
+  // perform some operations that result in dead code
+  int unused_var = x OPERATOR ANY_VALUE; // this operation is not used anywhere
+
+  // use some variables in a way that does not affect the unused_var
+  main_result = y OPERATOR z; // perform some operation with y and z
+
+  printf("%d\n", main_result); // print the result to ensure side effects
+
+  return main_result; // return the result
+}
+```
+
+This pattern characterizes scenarios where within the `main` function, there exists an operation that results in a variable (`unused_var`) being computed but never used, making it a candidate for dead code elimination. The `main` function performs other operations that do not depend on `unused_var`, ensuring that `unused_var` is indeed dead code. The `OPERATOR` could be any operator that results in a computation, such as `+`, `-`, `*`, `/`, etc. The `ANY_TYPE` could be any valid C type, such as `int`, `float`, `double`, etc., and `ANY_VALUE` should be a value compatible with the type. The `main` function must return a value to ensure the program has a meaningful exit status.

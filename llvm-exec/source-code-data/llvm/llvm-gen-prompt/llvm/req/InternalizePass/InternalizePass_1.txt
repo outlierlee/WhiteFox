@@ -1,0 +1,27 @@
+The C program should contain the following pattern:
+
+```c
+// Declare global variables with initializers
+int global_var1 = 42;
+float global_var2 = 3.14;
+
+// Define functions
+void external_func1() {
+  // Function body
+}
+
+void external_func2() {
+  // Function body
+}
+
+// Define the main function
+int main() {
+  // Use global variables and functions
+  global_var1 += 10;
+  external_func1();
+  external_func2();
+  return 0;
+}
+```
+
+This pattern characterizes scenarios where the program contains global variables with initializers and functions that are not explicitly marked as internal (e.g., using `static`). The global variables and functions are used within the `main` function. The program should not include any specific attributes or pragmas that would prevent the global variables or functions from being internalized. The `main` function must utilize these global variables and functions to ensure they are part of the module's global scope. The presence of these elements allows the optimization to potentially change their linkage to internal, thus triggering the optimization pass.

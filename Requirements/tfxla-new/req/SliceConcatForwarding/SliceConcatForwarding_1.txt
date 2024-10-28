@@ -1,0 +1,12 @@
+The model should contain the following pattern:
+
+```python
+# Assume A1, A2, ..., An are tensors that are concatenated along a specific dimension.
+concat_tensor = tf.concat([A1, A2, ..., An, ...], axis=concat_dim)
+
+# The slice operation extracts a single element (or a slice of size 1) from the concatenated tensor.
+# The slice is taken such that it exactly matches one of the original tensors (e.g., An).
+sliced_tensor = tf.slice(concat_tensor, [n], [1])
+```
+
+The pattern describes that there is a `concat` operation that concatenates multiple tensors along a specified dimension. Following this, a `slice` operation extracts a single element (or a slice of size 1) from the concatenated tensor. The slice is positioned such that it exactly matches one of the original tensors that were concatenated, effectively isolating that tensor. The slice must have a rank of 1, and the slice size must match the size of the dimension being sliced. Additionally, the slice stride must be 1.

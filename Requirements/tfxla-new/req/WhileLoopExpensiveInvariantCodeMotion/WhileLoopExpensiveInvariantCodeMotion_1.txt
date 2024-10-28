@@ -1,0 +1,32 @@
+The model should contain the following pattern:
+
+1. **While Loop with Tuple State**: The while loop in the model must use a tuple state. This means the loop's input and output are tuples, which is a requirement for the optimization to consider hoisting invariant code.
+
+2. **Invariant Instructions**: The while loop body should contain instructions that are invariant, meaning they do not depend on the loop's iteration variable. These instructions should be candidates for hoisting outside the loop.
+
+3. **No Side Effects**: The invariant instructions should not have side effects, such as modifying global state or performing I/O operations.
+
+4. **No Control Dependencies**: The invariant instructions should not have control predecessors or successors, ensuring they are not part of a control flow dependency chain.
+
+5. **No Domain or Custom Call Operations**: The loop body should not contain domain instructions or specific custom call operations like "SPMDFullToShardShape" or "SPMDShardShapeToFull", as these complicate the hoisting process.
+
+6. **Worth Hoisting**: The invariant instructions should be worth hoisting, meaning they do not significantly increase memory usage when moved outside the loop. This is typically assessed by comparing the size of the instruction's output to the size of its inputs.
+
+7. **Loop Trip Count**: The loop should have a trip count greater than 1, as hoisting is not beneficial for loops that execute at most once.
+
+8. **Invariant GTEs**: The loop body should contain invariant GetTupleElement (GTE) instructions, which are used to identify other invariant instructions.
+
+Here is a simplified example pattern in TensorFlow that could trigger this optimization:
+
+```python
+def loop_body(state):
+    invariant_tensor = tf.constant([...])  # Expensive invariant operation
+    # Use invariant_tensor in some computation
+    result = some_computation(state, invariant_tensor)
+    return result
+
+initial_state = (tf.zeros(...),)
+result = tf.while_loop(cond, loop_body, initial_state)
+```
+
+In this example, `invariant_tensor` is an expensive operation that does not depend on the loop's state and can be hoisted outside the loop.

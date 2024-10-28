@@ -1,0 +1,16 @@
+The model should contain the following pattern, which resembles a parametric ReLU (PReLU) activation function applied to the output of a pointwise linear transformation:
+
+```python
+# Apply pointwise linear transformation to the input tensor
+t1 = linear(input_tensor)
+
+# Check where the output of the linear transformation is greater than 0
+mask = t1 > 0
+
+# Apply the PReLU activation function
+# If the condition is true (t1 > 0), use t1
+# If the condition is false (t1 <= 0), use t1 * negative_slope
+output = torch.where(mask, t1, t1 * negative_slope)
+```
+
+This pattern characterizes scenarios where the output of a pointwise linear transformation is used in a conditional operation (`torch.where`) to apply a PReLU-like activation. The output is directly used if it is greater than zero, otherwise, it is scaled by a `negative_slope` factor. The linear transformation is applied multiple times, indicating that the same transformation is reused in the computation.

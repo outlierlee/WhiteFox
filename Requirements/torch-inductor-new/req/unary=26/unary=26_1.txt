@@ -1,0 +1,10 @@
+The model should contain the following pattern:
+
+```python
+t1 = conv_transpose(input_tensor)  # Apply pointwise transposed convolution to the input tensor
+t2 = t1 > 0  # Compare the output of the transposed convolution with 0
+t3 = t1 * negative_slope  # Multiply the output of the transposed convolution by a negative slope
+t4 = torch.where(t2, t1, t3)  # Use the where function to select between t1 and t3 based on the condition t2
+```
+
+This pattern characterizes scenarios where the output of a pointwise transposed convolution is compared to zero, and based on this comparison, a conditional operation is performed using the `torch.where` function. If the output is greater than zero, the original output is retained; otherwise, the output is multiplied by a specified `negative_slope`. This pattern is indicative of a Leaky ReLU activation function applied to the output of a transposed convolution layer.

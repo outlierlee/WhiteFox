@@ -1,0 +1,30 @@
+The TensorFlow model should exhibit the following characteristics to trigger the `Bfloat16ConversionFolding` optimization pass in TensorFlow XLA:
+
+1. **Conversion Pattern**: The model should include operations where the output of an operation is converted from `F32` to `BF16`. This is typically done using a `Convert` operation.
+
+2. **All Users Conversion**: All users of the output of a particular operation should be `Convert` operations that convert from `F32` to `BF16`. This ensures that the output conversion can be folded.
+
+3. **BF16 Support**: The operations involved should support low precision (BF16) for both inputs and outputs. This is determined by the `bfloat16_support_` checks in the code.
+
+4. **No Mixed Precision Restriction**: If the operation does not support mixed precisions, then all operands and outputs must be convertible to `BF16` without leaving any in `F32`.
+
+5. **Exclusion of Certain Operations**: The model should not include operations that are excluded from conversion folding, such as tuples, constants, parameters, fusions, and control flow operations like `While` or `Conditional`.
+
+6. **Root Instruction Consideration**: If the operation is the root instruction of the computation, it should support mixed precision to allow operand conversion, as the root's output type cannot be changed.
+
+Here is a simplified example pattern that could trigger this optimization:
+
+```python
+import tensorflow as tf
+
+# Assume `some_operation` is an operation that supports BF16 and has F32 output
+output = some_operation(input_tensor)
+
+# Convert the output from F32 to BF16
+output_bf16 = tf.cast(output, dtype=tf.bfloat16)
+
+# All users of `output` should be using `output_bf16`
+result = another_operation(output_bf16)
+```
+
+In this pattern, `some_operation` produces an F32 output, which is then converted to BF16. If all users of the original F32 output are using the BF16 converted output, and the operation supports BF16, the `Bfloat16ConversionFolding` optimization can be triggered.

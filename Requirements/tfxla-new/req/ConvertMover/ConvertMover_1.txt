@@ -1,0 +1,36 @@
+The `ConvertMover` optimization pass in TensorFlow XLA is triggered by a specific pattern in the model involving `Convert` operations. The characteristics of the model that can trigger this optimization are as follows:
+
+1. **Convert Operations**: The model contains `Convert` operations that change the precision of tensor data types. These operations are either increasing or decreasing the precision of the data.
+
+2. **Commutative Operations**: The `Convert` operations are applied to the results of certain commutative operations. The operations that commute with `Convert` include:
+   - `Concatenate`
+   - `Pad`
+   - `Reshape`
+   - `Slice`
+   - `Transpose`
+
+3. **Single User Constraint**: The `Convert` operation must have a single user, meaning it is used by only one other operation in the computation graph.
+
+4. **Consistent Source Data Type**: If there are multiple `Convert` operations as operands to a commutative operation, they must all convert from the same source data type.
+
+5. **Precision Change**: The `Convert` operation must involve a change in precision:
+   - For moving "increase precision" down the graph, the source type must have a smaller bit width than the destination type.
+   - For moving "decrease precision" up the graph, the source type must have a larger bit width than the destination type.
+
+6. **Lossless Conversion for Constants**: If the commutative operation involves constant operands, these constants must be losslessly convertible to the source type of the `Convert` operation.
+
+### Example Pattern
+
+```python
+# Example of increasing precision
+x = tf.constant([...], dtype=tf.float16)
+y = tf.convert_to_tensor(x, dtype=tf.float32)
+z = tf.pad(y, paddings=[[1, 1]], constant_values=0.0)
+
+# Example of decreasing precision
+a = tf.constant([...], dtype=tf.float32)
+b = tf.convert_to_tensor(a, dtype=tf.float16)
+c = tf.reshape(b, new_shape=[...])
+```
+
+In these examples, the `Convert` operations are applied to tensors involved in commutative operations (`Pad` and `Reshape`), and the precision is either increased or decreased, which can trigger the `ConvertMover` optimization pass.

@@ -1,0 +1,18 @@
+The model should contain a `while` loop construct where the trip count (the number of iterations the loop will execute) can be statically determined at compile time. This means that the loop's iteration count is known and fixed, rather than being dependent on dynamic runtime conditions. The loop should be structured in such a way that the `ComputeWhileLoopTripCount` function can successfully calculate this trip count. 
+
+Here is a pattern that illustrates the characteristics needed:
+
+```python
+def body_fn(loop_var):
+    # Define the loop body operations
+    return loop_var - 1
+
+def cond_fn(loop_var):
+    # Define the loop condition
+    return loop_var > 0
+
+initial_value = tf.constant(10)
+result = tf.while_loop(cond_fn, body_fn, [initial_value])
+```
+
+In this example, the loop will execute a fixed number of times (10 iterations), as determined by the initial value and the decrement operation in the loop body. The `WhileLoopTripCountAnnotator` optimization pass can annotate this loop with the known trip count because the number of iterations is statically determinable.

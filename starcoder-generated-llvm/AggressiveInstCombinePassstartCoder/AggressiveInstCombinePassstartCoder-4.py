@@ -1,0 +1,21 @@
+
+```cpp
+#include <stdio.h>
+
+int a = -20;
+int b = 10;
+int c = 80;
+
+static int trunc_func(int a, int b, int c) {
+  int result = 0;
+  result = (a+b) * c;
+  return result;
+}
+
+int main() {
+  int main_result = 0;
+  main_result = trunc_func(a, b, c);
+  printf("%d\n", main_result);
+  return 0;
+}
+```
